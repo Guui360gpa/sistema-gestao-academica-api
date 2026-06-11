@@ -11,15 +11,17 @@ public class Controller {
     protected Scanner read = new Scanner(System.in);
     protected int opcao;
 
-    protected AlunoRepository alunoRepository;
-    protected ProfessorRepository professorRepository;
-    protected TurmaRepository turmaRepository;
+    private AlunoRepository alunoRepository;
+    private ProfessorRepository professorRepository;
+    private TurmaRepository turmaRepository;
 
     public Controller(AlunoRepository alunoRepository, ProfessorRepository professorRepository, TurmaRepository turmaRepository) {
         this.alunoRepository = alunoRepository;
         this.professorRepository = professorRepository;
         this.turmaRepository = turmaRepository;
     }
+
+    public Controller() {}
 
     public void menu(){
         while (true) {
@@ -42,27 +44,17 @@ public class Controller {
 
             switch (opcao) {
                 case 1:
-                    AlunoController alunoMain = new AlunoController(
-                            alunoRepository,
-                            professorRepository,
-                            turmaRepository);
+                    AlunoController alunoMain = new AlunoController(alunoRepository);
                     alunoMain.menu();
                     break;
                 case 2:
-                    ProfessorController professorMain = new ProfessorController(
-                            alunoRepository,
-                            professorRepository,
-                            turmaRepository);
+                    ProfessorController professorMain = new ProfessorController(professorRepository);
                     professorMain.menu();
                     break;
                 case 3:
                     break;
                 case 4:
-                    TurmaController turmaMain = new TurmaController(
-                            alunoRepository,
-                            professorRepository,
-                            turmaRepository
-                    );
+                    TurmaController turmaMain = new TurmaController(turmaRepository);
                     turmaMain.menu();
                     break;
                 case 0:

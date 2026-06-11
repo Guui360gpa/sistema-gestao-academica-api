@@ -1,17 +1,16 @@
 package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.repository.AlunoRepository;
-import br.com.sistemagestaoacademica.repository.ProfessorRepository;
-import br.com.sistemagestaoacademica.repository.TurmaRepository;
 
-public class AlunoController extends Controller {
+public class AlunoController extends Controller{
 
-    private AlunoRepository alunoRepository;
+    private AlunoRepository repository;
 
-    public AlunoController(AlunoRepository alunoRepository, ProfessorRepository professorRepository, TurmaRepository turmaRepository) {
-        super(alunoRepository, professorRepository, turmaRepository);
-        this.alunoRepository = alunoRepository;
+    public AlunoController(AlunoRepository alunoRepository){
+        this.repository = alunoRepository;
     }
+
+    public AlunoController() {}
 
     @Override
     public void menu(){
@@ -26,14 +25,19 @@ public class AlunoController extends Controller {
         opcao = read.nextInt();
         read.nextLine();
 
+
         switch (opcao){
             case 1:
+                cadastrarAluno();
                 break;
             case 2:
+                matricularAluno();
                 break;
             case 3:
+                listarAlunosPorTurma();
                 break;
             case 4:
+                desmatricularAluno();
                 break;
 
             default:
@@ -41,4 +45,12 @@ public class AlunoController extends Controller {
 
         }
     }
+
+    private void cadastrarAluno() {}
+
+    private void matricularAluno() {}
+
+    private void listarAlunosPorTurma() {}
+
+    private void desmatricularAluno() {}
 }
