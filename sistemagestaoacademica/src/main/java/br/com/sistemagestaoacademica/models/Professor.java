@@ -21,6 +21,13 @@ public class Professor {
     @OneToMany(mappedBy = "professor")
     private List<Turma> turmas;
 
+    public Professor(String nome, Especialidade especialidade) {
+        this.nome = nome;
+        this.especialidade = especialidade;
+    }
+
+    public Professor() {}
+
     public Long getId() {
         return id;
     }

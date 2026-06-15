@@ -12,6 +12,9 @@ public class Turma {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome_turma",nullable = false)
+    private String nome;
+
     @Column(name = "data_inicio", nullable = false)
     private LocalDate data;
 
@@ -25,6 +28,13 @@ public class Turma {
 
     @OneToMany(mappedBy = "turma")
     private List<Matricula> matriculas;
+
+    public Turma(String nome, Professor professor, Curso curso) {
+        this.nome = nome;
+        this.data = LocalDate.now();
+        this.professor = professor;
+        this.curso = curso;
+    }
 
     public Long getId() {
         return id;

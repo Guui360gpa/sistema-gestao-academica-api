@@ -24,6 +24,14 @@ public class Curso {
     @OneToMany(mappedBy = "curso")
     private List<Turma> turmas;
 
+    public Curso(String nome, String descricao, Integer cargaHoraria) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.cargaHoraria = cargaHoraria;
+    }
+
+    public Curso() {}
+
     public Long getId() {
         return id;
     }

@@ -2,6 +2,7 @@ package br.com.sistemagestaoacademica;
 
 import br.com.sistemagestaoacademica.controller.Controller;
 import br.com.sistemagestaoacademica.repository.AlunoRepository;
+import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
 import br.com.sistemagestaoacademica.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,16 @@ public class SistemagestaoacademicaApplication implements CommandLineRunner {
 	@Autowired
 	private TurmaRepository turmaRepository;
 
+	@Autowired
+	private CursoRepository cursoRepository;
+
 	public static void main(String[] args){
 		SpringApplication.run(SistemagestaoacademicaApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
-		Controller controller = new Controller(alunoRepository,professorRepository,turmaRepository);
+		Controller controller = new Controller(alunoRepository,professorRepository,turmaRepository,cursoRepository);
 		controller.menu();
 	}
 }

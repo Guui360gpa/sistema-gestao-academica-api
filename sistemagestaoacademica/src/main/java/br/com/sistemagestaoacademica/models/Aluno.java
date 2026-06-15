@@ -26,6 +26,11 @@ public class Aluno {
     @OneToMany(mappedBy = "aluno")
     private List<Matricula> matriculas;
 
+    public Aluno(String nome, LocalDate dataNascimento, String email) {
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.email = email;
+    }
 
     public Long getRa() {
         return ra;

@@ -1,6 +1,7 @@
 package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.repository.AlunoRepository;
+import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
 import br.com.sistemagestaoacademica.repository.TurmaRepository;
 
@@ -14,11 +15,13 @@ public class Controller {
     private AlunoRepository alunoRepository;
     private ProfessorRepository professorRepository;
     private TurmaRepository turmaRepository;
+    private CursoRepository cursoRepository;
 
-    public Controller(AlunoRepository alunoRepository, ProfessorRepository professorRepository, TurmaRepository turmaRepository) {
+    public Controller(AlunoRepository alunoRepository, ProfessorRepository professorRepository, TurmaRepository turmaRepository,CursoRepository cursoRepository) {
         this.alunoRepository = alunoRepository;
         this.professorRepository = professorRepository;
         this.turmaRepository = turmaRepository;
+        this.cursoRepository = cursoRepository;
     }
 
     public Controller() {}
@@ -32,7 +35,7 @@ public class Controller {
                     
                     [1] Aluno
                     [2] Professor
-                    [3] Disciplina
+                    [3] Curso
                     [4] Turma
                     
                     [0] Sair
@@ -52,9 +55,11 @@ public class Controller {
                     professorMain.menu();
                     break;
                 case 3:
+                    CursoController cursoController = new CursoController(cursoRepository);
+                    cursoController.menu();
                     break;
                 case 4:
-                    TurmaController turmaMain = new TurmaController(turmaRepository);
+                    TurmaController turmaMain = new TurmaController(turmaRepository,professorRepository,cursoRepository);
                     turmaMain.menu();
                     break;
                 case 0:
