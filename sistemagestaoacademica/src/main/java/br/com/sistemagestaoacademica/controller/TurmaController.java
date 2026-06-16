@@ -2,13 +2,12 @@ package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Professor;
+import br.com.sistemagestaoacademica.models.StatusTurma;
 import br.com.sistemagestaoacademica.models.Turma;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
 import br.com.sistemagestaoacademica.repository.TurmaRepository;
-import br.com.sistemagestaoacademica.service.ProfessorNotFoundExcepition;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TurmaController extends Controller {
@@ -47,7 +46,7 @@ public class TurmaController extends Controller {
                 listarTurmasDesativadas();
                 break;
             case 4:
-                desativarTurmas();
+                desativarTurma();
                 break;
 
             default:
@@ -55,7 +54,7 @@ public class TurmaController extends Controller {
         }
     }
 
-    private void novaTurma() {
+    public void novaTurma() {
         System.out.println("\nDigite o nome da turma: ");
         var nomeTurma = read.nextLine();
 
@@ -115,9 +114,41 @@ public class TurmaController extends Controller {
 
         }
 
-    private void listarTurmasAtivas() {}
+    public void listarTurmasAtivas() {
+        List<Turma> turmasAtivas = repository.findByStatusTurma(StatusTurma.ATIVADA);
 
-    private void listarTurmasDesativadas() {}
+        if (turmasAtivas.isEmpty()) {
+            System.out.println("\nNenhuma turma ativa encontrada.");
+            return;
+        }
 
-    private void desativarTurmas() {}
+        System.out.println("\n=== Turmas Ativas ===");
+        turmasAtivas.forEach(t ->
+                System.out.printf("ID: %s | Turma: %s | Professor: %s | Curso: %s\n",
+                        t.getId(),
+                        t.getNome(),
+                        t.getProfessor().getNome(),
+                        t.getCurso().getNome())
+        );
+    }
+
+    private void listarTurmasDesativadas() {
+        List<Turma> turmasDesativas = repository.findByStatusTurma(StatusTurma.DESATIVADA);
+
+        if (turmasDesativas.isEmpty()) {
+            System.out.println("\nNenhuma turma desativada encontrada.");
+            return;
+        }
+
+        System.out.println("\n=== Turmas Desativadas ===");
+        turmasDesativas.forEach(t ->
+                System.out.printf("ID: %s | Turma: %s | Professor: %s | Curso: %s\n",
+                        t.getId(),
+                        t.getNome(),
+                        t.getProfessor().getNome(),
+                        t.getCurso().getNome())
+        );
+    }
+
+    private void desativarTurma() {}
 }

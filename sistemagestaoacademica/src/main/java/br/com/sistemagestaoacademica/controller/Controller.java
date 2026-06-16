@@ -1,9 +1,6 @@
 package br.com.sistemagestaoacademica.controller;
 
-import br.com.sistemagestaoacademica.repository.AlunoRepository;
-import br.com.sistemagestaoacademica.repository.CursoRepository;
-import br.com.sistemagestaoacademica.repository.ProfessorRepository;
-import br.com.sistemagestaoacademica.repository.TurmaRepository;
+import br.com.sistemagestaoacademica.repository.*;
 
 import java.util.Scanner;
 
@@ -16,12 +13,14 @@ public class Controller {
     private ProfessorRepository professorRepository;
     private TurmaRepository turmaRepository;
     private CursoRepository cursoRepository;
+    private MatriculaRepository matriculaRepository;
 
-    public Controller(AlunoRepository alunoRepository, ProfessorRepository professorRepository, TurmaRepository turmaRepository,CursoRepository cursoRepository) {
+    public Controller(AlunoRepository alunoRepository, ProfessorRepository professorRepository, TurmaRepository turmaRepository,CursoRepository cursoRepository,MatriculaRepository matriculaRepository) {
         this.alunoRepository = alunoRepository;
         this.professorRepository = professorRepository;
         this.turmaRepository = turmaRepository;
         this.cursoRepository = cursoRepository;
+        this.matriculaRepository = matriculaRepository;
     }
 
     public Controller() {}
@@ -47,7 +46,7 @@ public class Controller {
 
             switch (opcao) {
                 case 1:
-                    AlunoController alunoMain = new AlunoController(alunoRepository);
+                    AlunoController alunoMain = new AlunoController(alunoRepository,turmaRepository,matriculaRepository,professorRepository,cursoRepository);
                     alunoMain.menu();
                     break;
                 case 2:

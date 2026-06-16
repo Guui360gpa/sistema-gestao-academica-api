@@ -1,5 +1,6 @@
 package br.com.sistemagestaoacademica.models;
 
+import br.com.sistemagestaoacademica.repository.MatriculaRepository;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,6 +29,14 @@ public class Matricula {
 
     @Column(name = "data_matricula", nullable = false)
     private LocalDate dataMatricula;
+
+    public Matricula(Aluno aluno, Turma turma) {
+        this.aluno = aluno;
+        this.turma = turma;
+        this.dataMatricula = LocalDate.now();
+    }
+
+    public Matricula() {}
 
     public Long getId() {
         return id;

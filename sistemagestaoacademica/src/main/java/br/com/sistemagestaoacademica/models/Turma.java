@@ -29,11 +29,35 @@ public class Turma {
     @OneToMany(mappedBy = "turma")
     private List<Matricula> matriculas;
 
+
+    @Column(name = "status_turma", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusTurma statusTurma;
+
     public Turma(String nome, Professor professor, Curso curso) {
         this.nome = nome;
         this.data = LocalDate.now();
         this.professor = professor;
         this.curso = curso;
+        this.statusTurma = StatusTurma.ATIVADA;
+    }
+
+    public Turma() {}
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public StatusTurma getStatusTurma() {
+        return statusTurma;
+    }
+
+    public void setStatusTurma(StatusTurma statusTurma) {
+        this.statusTurma = statusTurma;
     }
 
     public Long getId() {

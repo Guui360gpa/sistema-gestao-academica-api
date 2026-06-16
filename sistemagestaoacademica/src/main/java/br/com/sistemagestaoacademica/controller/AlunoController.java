@@ -1,18 +1,31 @@
 package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.models.Aluno;
-import br.com.sistemagestaoacademica.repository.AlunoRepository;
+import br.com.sistemagestaoacademica.models.Matricula;
+import br.com.sistemagestaoacademica.models.Turma;
+import br.com.sistemagestaoacademica.repository.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class AlunoController extends Controller{
 
     private AlunoRepository repository;
+    private TurmaRepository turmaRepository;
+    private MatriculaRepository matriculaRepository;
+    private TurmaController turmaController;
 
-    public AlunoController(AlunoRepository alunoRepository){
+    public AlunoController(AlunoRepository alunoRepository,
+                           TurmaRepository turmaRepository,
+                           MatriculaRepository matriculaRepository,
+                           ProfessorRepository professorRepository,
+                           CursoRepository cursoRepository){
         this.repository = alunoRepository;
+        this.turmaRepository = turmaRepository;
+        this.turmaController = new TurmaController(turmaRepository,professorRepository,cursoRepository);
+        this.matriculaRepository = matriculaRepository;
     }
 
     public AlunoController() {}
@@ -79,7 +92,80 @@ public class AlunoController extends Controller{
         System.out.println("Aluno cadastrado com sucesso!");
     }
 
-    private void matricularAluno() {}
+    private void matricularAluno() {
+        Aluno alunoEncontrado = null;
+        List<Aluno> alunosEncontrados;
+
+        System.out.println("\nQual aluno você deseja matricular ?");
+        while (alunoEncontrado == null){
+            var nomeAluno = read.nextLine();
+            alunosEncontrados = repository.buscarAlunoPorNome(nomeAluno);
+            if (alunosEncontrados.isEmpty()){
+                System.out.println("\nAluno não encontrado ! Deseja cadastra-lo?(s/n)");
+                var escolha = read.nextLine();
+                if(escolha.equalsIgnoreCase("s")){
+                    cadastrarAluno();
+                }else {
+                    break;
+                }
+            }else {
+                alunosEncontrados.forEach(a ->
+                        System.out.printf("%s - %s - %s\n",a.getRa(),a.getNome(),a.getEmail()));
+                System.out.println("\nDigite o RA do aluno desejado: ");
+                Long idSelecionado = Long.parseLong(read.nextLine().trim());
+                alunoEncontrado = alunosEncontrados.stream()
+                        .filter(a -> a.getRa().equals(idSelecionado))
+                        .findFirst()
+                        .orElse(null);
+
+                if (alunoEncontrado == null) {
+                    System.out.println("\nRA inválido! Tente novamente:");
+                }
+            }
+        }
+
+        Turma turmaEncontrada = null;
+        List<Turma> turmasEncontradas;
+
+
+        assert alunoEncontrado != null;
+        System.out.printf("\nA qual turma deseja matricular %s ?",alunoEncontrado.getNome());
+        this.turmaController.listarTurmasAtivas();
+
+        System.out.println("\n: ");
+        while (turmaEncontrada == null){
+            var nomeTurma = read.nextLine();
+            turmasEncontradas = turmaRepository.buscarTurmaPorNome(nomeTurma);
+            if (turmasEncontradas.isEmpty()){
+                System.out.println("\nTurma não encontrada ! Deseja cadastrar uma nova turma?(s/n)");
+                var escolha = read.nextLine();
+                if(escolha.equalsIgnoreCase("s")){
+                    this.turmaController.novaTurma();
+                }else {
+                    break;
+                }
+            }else {
+                turmasEncontradas.forEach(a ->
+                        System.out.printf("%s - %s - %s - %s\n",a.getId(),a.getNome(),a.getProfessor().getNome(),a.getCurso().getNome()));
+                System.out.println("\nDigite o ID da turma desejada: ");
+                Long idSelecionado = Long.parseLong(read.nextLine().trim());
+                turmaEncontrada = turmasEncontradas.stream()
+                        .filter(a -> a.getId().equals(idSelecionado))
+                        .findFirst()
+                        .orElse(null);
+
+                if (alunoEncontrado == null) {
+                    System.out.println("\nID inválido! Tente novamente:");
+                }
+            }
+        }
+
+        Matricula matricula = new Matricula(alunoEncontrado,turmaEncontrada);
+        matriculaRepository.save(matricula);
+        System.out.println("Aluno matriculado com sucesso!");
+
+
+    }
 
     private void listarAlunosPorTurma() {}
 

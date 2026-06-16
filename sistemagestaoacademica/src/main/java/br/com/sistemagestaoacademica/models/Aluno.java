@@ -32,6 +32,8 @@ public class Aluno {
         this.email = email;
     }
 
+    public Aluno() {}
+
     public Long getRa() {
         return ra;
     }
