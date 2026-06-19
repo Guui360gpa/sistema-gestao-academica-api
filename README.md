@@ -1,6 +1,6 @@
 # Escopo do Projeto: Sistema de Gestão Acadêmica
 
-**Status do projeto:** Em andamento
+**Status do projeto:** Finalizado
 
 ## 1. Visão Geral
 
