@@ -2,7 +2,9 @@ package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.models.Especialidade;
 import br.com.sistemagestaoacademica.models.Professor;
+import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
+import br.com.sistemagestaoacademica.repository.TurmaRepository;
 
 import java.util.List;
 
@@ -21,9 +23,7 @@ public class ProfessorController extends Controller {
         System.out.println("""
                 
                 [1] Cadastrar Professor 
-                [2] Associar Professor
-                [3] Listar Professores
-                [4] Desassociar Professor
+                [2] Listar Professores
                 
                 """);
         opcao = read.nextInt();
@@ -34,13 +34,7 @@ public class ProfessorController extends Controller {
                 cadastrarProfessor();
                 break;
             case 2:
-                acossiarProfessorEmTurma();
-                break;
-            case 3:
                 listarProfessores();
-                break;
-            case 4:
-                desassociarProfessorEmTurma();
                 break;
 
             default:
@@ -77,9 +71,17 @@ public class ProfessorController extends Controller {
         System.out.println("\nProfessor cadastrado com sucesso!");
     }
 
-    private void acossiarProfessorEmTurma() {}
+    private void listarProfessores() {
+        List<Professor> todosProfessores = repository.findAll();
 
-    private void listarProfessores() {}
+        if (todosProfessores.isEmpty()) {
+            System.out.println("\nNenhum professor cadastrado.");
+            return;
+        }
 
-    private void desassociarProfessorEmTurma() {}
+        todosProfessores.forEach(p ->
+                System.out.printf("%s | %s\n",
+                        p.getNome(),
+                        p.getEspecialidade()));
+    }
 }

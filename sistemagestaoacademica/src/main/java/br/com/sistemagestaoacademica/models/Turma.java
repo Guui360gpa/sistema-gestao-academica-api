@@ -32,14 +32,14 @@ public class Turma {
 
     @Column(name = "status_turma", nullable = false)
     @Enumerated(EnumType.STRING)
-    private StatusTurma statusTurma;
+    private Status status;
 
     public Turma(String nome, Professor professor, Curso curso) {
         this.nome = nome;
         this.data = LocalDate.now();
         this.professor = professor;
         this.curso = curso;
-        this.statusTurma = StatusTurma.ATIVADA;
+        this.status = Status.ATIVADA;
     }
 
     public Turma() {}
@@ -52,21 +52,19 @@ public class Turma {
         this.nome = nome;
     }
 
-    public StatusTurma getStatusTurma() {
-        return statusTurma;
+    public Status getStatusTurma() {
+        return status;
     }
 
-    public void setStatusTurma(StatusTurma statusTurma) {
-        this.statusTurma = statusTurma;
+    public void setStatusTurma(Status status) {
+        this.status = status;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+
 
     public LocalDate getData() {
         return data;

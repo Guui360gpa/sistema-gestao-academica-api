@@ -42,10 +42,6 @@ public class Matricula {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Aluno getAluno() {
         return aluno;
     }

@@ -1,7 +1,6 @@
 package br.com.sistemagestaoacademica.repository;
 
 import br.com.sistemagestaoacademica.models.Aluno;
-import br.com.sistemagestaoacademica.models.Professor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

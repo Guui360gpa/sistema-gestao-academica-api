@@ -24,10 +24,15 @@ public class Curso {
     @OneToMany(mappedBy = "curso")
     private List<Turma> turmas;
 
+    @Column(name = "status_curso",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public Curso(String nome, String descricao, Integer cargaHoraria) {
         this.nome = nome;
         this.descricao = descricao;
         this.cargaHoraria = cargaHoraria;
+        this.status = Status.ATIVADA;
     }
 
     public Curso() {}
@@ -36,9 +41,14 @@ public class Curso {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Status getStatus() {
+        return status;
     }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
 
     public String getNome() {
         return nome;

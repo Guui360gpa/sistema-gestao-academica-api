@@ -38,10 +38,6 @@ public class Aluno {
         return ra;
     }
 
-    public void setRa(Long ra) {
-        this.ra = ra;
-    }
-
     public String getNome() {
         return nome;
     }
