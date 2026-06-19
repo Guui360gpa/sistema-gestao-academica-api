@@ -151,7 +151,7 @@ public class AlunoController extends Controller {
 
                 if (turmaEncontrada == null) {
                     System.out.println("\nID inválido! Tente novamente:"); // ← sem return, loop continua
-                } else if (matriculaRepository.existsByAlunoIdAndTurmaId(alunoEncontrado.getRa(), turmaEncontrada.getId())) {
+                } else if (matriculaRepository.existsByAlunoRaAndTurmaId(alunoEncontrado.getRa(), turmaEncontrada.getId())) {
                     System.out.println("Erro: " + alunoEncontrado.getNome() + " já está matriculado na turma " + turmaEncontrada.getNome() + "!");
                     return;
                 }

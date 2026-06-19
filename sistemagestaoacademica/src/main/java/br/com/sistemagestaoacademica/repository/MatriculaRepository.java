@@ -13,5 +13,5 @@ public interface MatriculaRepository extends JpaRepository<Matricula,Long> {
     @Query("SELECT m.aluno FROM Matricula m WHERE m.turma.id = :idTurma")
     List<Aluno> buscarAlunosPorTurma(@Param("idTurma") Long idTurma);
 
-    boolean existsByAlunoIdAndTurmaId(Long alunoId, Long turmaId);
+    boolean existsByAlunoRaAndTurmaId(Long ra, Long idTurma);
 }
