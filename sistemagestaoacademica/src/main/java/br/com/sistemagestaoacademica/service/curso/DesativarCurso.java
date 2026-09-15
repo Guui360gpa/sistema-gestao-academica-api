@@ -1,54 +1,52 @@
 package br.com.sistemagestaoacademica.service.curso;
 
+import br.com.sistemagestaoacademica.dto.CursoResponseDto;
+import br.com.sistemagestaoacademica.exception.CursoJaDesativadoException;
+import br.com.sistemagestaoacademica.exception.CursoNaoEncontradoException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Status;
+import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.service.BaseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
-public class DesativarCurso extends BaseService {
+@Service
+@RequiredArgsConstructor
+public class DesativarCurso{
+
+    private final CursoRepository cursoRepository;
 
 
-    private Curso cursoEncontrado = null;
-    private List<Curso> cursosEncontrados;
+    public CursoResponseDto desativar(Long id){
 
-    public void desativar(){
+        Curso curso = cursoRepository.findById(id)
+                .orElseThrow(() -> new CursoNaoEncontradoException("Curso não encontrado"));
 
+        CursoResponseDto cursoResponse = gerarCursoResponse(curso);
 
-        System.out.println("Qual curso você deseja desativar ?");
-        while (cursoEncontrado == null){
-            var nomeCurso = read.nextLine();
-            cursosEncontrados = cursoRepository.findByNomeContainingIgnoreCaseAndStatus(nomeCurso, Status.ATIVADA);
-            if (cursosEncontrados.isEmpty()) {
-                System.out.println("\nCurso não encontrado! Tente Novamente.");
-            }else {
-                listarCursosEncontrados(cursosEncontrados);
-                System.out.println("\nDigite o ID do curso desejado: ");
-                cursoEncontrado = capturarCursoPorId(lerLong());
-
-                if (cursoEncontrado == null) {
-                    System.out.println("\nID inválido! Tente novamente:");
-                } else if (cursoEncontrado.getStatus() != Status.ATIVADA) {
-                    System.out.println("Erro: o curso \"" + cursoEncontrado.getNome() + "\" já está desativado.");
-                    cursoEncontrado = null;
-                }
-            }
+        if (cursoResponse.status() == Status.DESATIVADA){
+            throw new CursoJaDesativadoException("O curso " +cursoResponse.nome() + "já está desativado");
         }
 
-        cursoEncontrado.setStatus(Status.DESATIVADA);
-        cursoRepository.save(cursoEncontrado);
+        curso.setStatus(Status.DESATIVADA);
+        Curso cursoSalvo = salvarCursoNoBanco(curso);
+
+        return cursoResponse;
     }
 
-    private void listarCursosEncontrados(List<Curso> cursosEncontrados){
-        cursosEncontrados.forEach(c ->
-                System.out.printf("%s | %s | %s h\n",c.getId(),c.getNome(),c.getCargaHoraria()));
+    private CursoResponseDto gerarCursoResponse(Curso c){
+        return new CursoResponseDto(
+                c.getId(),
+                c.getNome(),
+                c.getDescricao(),
+                c.getCargaHoraria(),
+                c.getStatus()
+        );
     }
 
-    private Curso capturarCursoPorId(Long id){
-        return  cursosEncontrados.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+    private Curso salvarCursoNoBanco(Curso curso){
+        return cursoRepository.save(curso);
     }
 }

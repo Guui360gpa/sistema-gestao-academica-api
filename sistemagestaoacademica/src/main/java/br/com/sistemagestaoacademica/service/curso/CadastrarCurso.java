@@ -5,7 +5,6 @@ import br.com.sistemagestaoacademica.dto.CursoResponseDto;
 import br.com.sistemagestaoacademica.exception.CursoJaCadastrado;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
-import br.com.sistemagestaoacademica.service.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
