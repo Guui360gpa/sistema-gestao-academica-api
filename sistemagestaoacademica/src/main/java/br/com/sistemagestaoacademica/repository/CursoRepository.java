@@ -14,4 +14,6 @@ public interface CursoRepository extends JpaRepository<Curso,Long> {
 
     @Query("SELECT c FROM Curso c WHERE c.status = :status")
     List<Curso> findByStatus(@Param("status") Status status);
+
+    boolean existsByNome(String nome);
 }

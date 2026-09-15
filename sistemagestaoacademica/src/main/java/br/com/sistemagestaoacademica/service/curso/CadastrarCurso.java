@@ -1,22 +1,42 @@
 package br.com.sistemagestaoacademica.service.curso;
 
+import br.com.sistemagestaoacademica.dto.CursoRequestDto;
+import br.com.sistemagestaoacademica.dto.CursoResponseDto;
+import br.com.sistemagestaoacademica.exception.CursoJaCadastrado;
 import br.com.sistemagestaoacademica.models.Curso;
+import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.service.BaseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-@org.springframework.stereotype.Service
-public class CadastrarCurso extends BaseService {
-    public void cadastrar(){
+@Service
+@RequiredArgsConstructor
+public class CadastrarCurso{
 
-        System.out.println("Digite o nome do curso: ");
-        var nomeCurso = read.nextLine();
+    private final CursoRepository cursoRepository;
 
-        System.out.printf("Descrição %s:",nomeCurso);
-        var descricao = read.nextLine();
+    public CursoResponseDto cadastrar(CursoRequestDto dto){
 
-        System.out.println("Carga horária (h):");
-        var cargaHoraria = read.nextInt();
+        if (cursoRepository.existsByNome(dto.nome())){
+            throw new CursoJaCadastrado("Curso ja cadastrado");
+        }
 
-        cursoRepository.save(new Curso(nomeCurso,descricao,cargaHoraria));
-        System.out.println("\nCurso cadastrado com sucesso!");
+        Curso cursoSalvo = salvarCursoNoBanco(new Curso(dto.nome(),dto.descricao(),dto.cargaHoraria()));
+
+        return gerarCursoResponse(cursoSalvo);
+    }
+
+    private Curso salvarCursoNoBanco(Curso curso){
+        return cursoRepository.save(curso);
+    }
+
+    private CursoResponseDto gerarCursoResponse(Curso c){
+        return new CursoResponseDto(
+                c.getId(),
+                c.getNome(),
+                c.getDescricao(),
+                c.getCargaHoraria(),
+                c.getStatus()
+        );
     }
 }

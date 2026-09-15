@@ -7,11 +7,8 @@ import br.com.sistemagestaoacademica.exception.EmailInvalidoException;
 import br.com.sistemagestaoacademica.exception.EmailJaCadastradoException;
 import br.com.sistemagestaoacademica.models.Aluno;
 import br.com.sistemagestaoacademica.repository.AlunoRepository;
-import br.com.sistemagestaoacademica.service.BaseService;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
