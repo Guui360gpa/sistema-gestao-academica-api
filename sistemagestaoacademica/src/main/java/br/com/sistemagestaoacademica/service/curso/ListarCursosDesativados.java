@@ -1,27 +1,41 @@
 package br.com.sistemagestaoacademica.service.curso;
 
+import br.com.sistemagestaoacademica.dto.CursoResponseDto;
+import br.com.sistemagestaoacademica.exception.ListaCursosAtivosVazioException;
+import br.com.sistemagestaoacademica.exception.ListaCursosVazioException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Status;
+import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.service.BaseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@org.springframework.stereotype.Service
-public class ListarCursosDesativados extends BaseService {
-    public void listar(){
+@Service
+@RequiredArgsConstructor
+public class ListarCursosDesativados{
+
+    private final CursoRepository cursoRepository;
+
+    public List<CursoResponseDto> listar(){
         List<Curso> cursosDesativados = cursoRepository.findByStatus(Status.DESATIVADA);
 
         if(cursosDesativados.isEmpty()){
-            System.out.println("Nenhum curso desativado foi encontrado!");
+            throw new ListaCursosVazioException("Nenhum curso desativo");
         }
 
-        listarCursosDesativos(cursosDesativados);
+        return gerarListaCursoResponse(cursosDesativados);
     }
 
-    private void listarCursosDesativos(List<Curso> cursosDesativados){
-        cursosDesativados.forEach(c ->
-                System.out.printf("\nCurso de %s\n%s\n%s h\n",
+    private List<CursoResponseDto> gerarListaCursoResponse(List<Curso> curso){
+        return curso.stream()
+                .map(c -> new CursoResponseDto(
+                        c.getId(),
                         c.getNome(),
                         c.getDescricao(),
-                        c.getCargaHoraria()));
+                        c.getCargaHoraria(),
+                        c.getStatus()
+                )).toList();
     }
 }

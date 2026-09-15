@@ -2,6 +2,7 @@ package br.com.sistemagestaoacademica.service.curso;
 
 import br.com.sistemagestaoacademica.dto.CursoResponseDto;
 import br.com.sistemagestaoacademica.exception.ListaCursosAtivosVazioException;
+import br.com.sistemagestaoacademica.exception.ListaCursosVazioException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
@@ -22,7 +23,7 @@ public class ListarCursosAtivos{
         List<Curso> cursosAtivos = cursoRepository.findByStatus(Status.ATIVADA);
 
         if(cursosAtivos.isEmpty()){
-            throw new ListaCursosAtivosVazioException("Nenhum curso ativo");
+            throw new ListaCursosVazioException("Nenhum curso ativo");
         }
 
         return gerarListaCursoResponse(cursosAtivos);
@@ -38,6 +39,4 @@ public class ListarCursosAtivos{
                         c.getStatus()
                 )).toList();
     }
-
-
 }
