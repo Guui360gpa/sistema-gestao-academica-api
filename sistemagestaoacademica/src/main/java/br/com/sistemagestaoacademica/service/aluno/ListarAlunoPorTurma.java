@@ -1,36 +1,34 @@
 package br.com.sistemagestaoacademica.service.aluno;
 
+import br.com.sistemagestaoacademica.dto.AlunoResponseDto;
+import br.com.sistemagestaoacademica.exception.TurmaVaziaException;
 import br.com.sistemagestaoacademica.models.Aluno;
-import br.com.sistemagestaoacademica.service.BaseService;
-import br.com.sistemagestaoacademica.service.turma.ListarTurmasAtivas;
+import br.com.sistemagestaoacademica.repository.MatriculaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ListarAlunoPorTurma extends BaseService {
+public class ListarAlunoPorTurma{
 
-    @Autowired
-    private ListarTurmasAtivas listarTurmasAtivas;
+    private final MatriculaRepository matriculaRepository;
 
-    public void listar() {
-        listarTurmasAtivas.listar();
-
-        System.out.println("\nDigite o ID da turma desejada: ");
-        Long idSelecionado = lerLong();
+    public List<AlunoResponseDto> listar(Long idSelecionado) {
 
         List<Aluno> alunosTurma = matriculaRepository.buscarAlunosPorTurma(idSelecionado);
 
         if (alunosTurma.isEmpty()) {
-            System.out.println("Nenhum aluno encontrado nessa turma.");
-            return;
+            throw new TurmaVaziaException("Esta turma está vazia");
         }
 
-        alunosTurma.forEach(a ->
-                System.out.printf("RA: %s | Nome: %s | Email: %s\n",
-                        a.getRa(), a.getNome(), a.getEmail()));
+        return alunosTurma.stream()
+                .map(a -> new AlunoResponseDto(
+                        a.getRa(),
+                        a.getNome(),
+                        a.getEmail(),
+                        a.getIdade()
+                )).toList();
     }
 }
