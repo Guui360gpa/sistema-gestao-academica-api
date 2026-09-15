@@ -49,6 +49,9 @@ public class Aluno {
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
+    public int getIdade(){
+        return Period.between(dataNascimento, LocalDate.now()).getYears();
+    }
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
@@ -64,12 +67,5 @@ public class Aluno {
 
     private int getIdade(LocalDate dataNascimento){
         return Period.between(dataNascimento, LocalDate.now()).getYears();
-    }
-
-    @Override
-    public String toString() {
-        return ra +
-                " - " + nome +
-                " - " + getIdade(dataNascimento) + " anos \n";
     }
 }

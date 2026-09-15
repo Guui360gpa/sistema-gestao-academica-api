@@ -1,7 +1,7 @@
 package br.com.sistemagestaoacademica.exception;
 
 public class EmailJaCadastradoException extends RuntimeException {
-  public EmailJaCadastradoException(String message) {
-    super(message);
-  }
+    public EmailJaCadastradoException(String message) {
+        super(message);
+    }
 }

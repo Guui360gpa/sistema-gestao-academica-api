@@ -11,4 +11,8 @@ public interface AlunoRepository extends JpaRepository<Aluno,Long> {
 
     @Query("SELECT a FROM Aluno a WHERE LOWER(a.nome) LIKE LOWER(CONCAT('%', :nome, '%'))")
     List<Aluno> buscarAlunoPorNome(@Param("nome") String nome);
+
+    boolean existsByEmail(String email);
+
+
 }

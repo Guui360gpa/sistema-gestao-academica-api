@@ -12,9 +12,8 @@ public class CadastrarProfessor extends BaseService {
         var nomeProfessor = read.nextLine();
 
         System.out.printf("Qual é a especialidade de %s\n",nomeProfessor);
-        List<Especialidade> especialidades = List.of(Especialidade.values());
-        especialidades.forEach(e ->
-                System.out.printf(" - %s - \n",e.toString()));
+        listarEspecialidades(List.of(Especialidade.values()));
+
 
         Especialidade especialidadeProfessor = null;
 
@@ -24,15 +23,23 @@ public class CadastrarProfessor extends BaseService {
                 especialidadeProfessor = Especialidade.fromValor(especialidade);
             } catch (IllegalArgumentException e){
                 System.out.println("Especialidade inválida! Escolha uma das opções abaixo:\n");
-                especialidades.forEach(c ->
-                        System.out.printf(" - %s - \n",c.toString()));
+                listarEspecialidades(List.of(Especialidade.values()));
 
             }
         }
 
         Professor professor = new Professor(nomeProfessor,especialidadeProfessor);
 
-        professorRepository.save(professor);
+        salvarProfessorNoBanco(professor);
         System.out.println("\nProfessor cadastrado com sucesso!");
+    }
+
+    private Professor salvarProfessorNoBanco(Professor professor){
+        return professorRepository.save(professor);
+    }
+
+    private void listarEspecialidades(List<Especialidade> especialidades){
+        especialidades.forEach(e ->
+                System.out.printf(" - %s - \n",e.toString()));
     }
 }

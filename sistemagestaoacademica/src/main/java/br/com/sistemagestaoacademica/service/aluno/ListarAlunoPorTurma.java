@@ -3,11 +3,14 @@ package br.com.sistemagestaoacademica.service.aluno;
 import br.com.sistemagestaoacademica.models.Aluno;
 import br.com.sistemagestaoacademica.service.BaseService;
 import br.com.sistemagestaoacademica.service.turma.ListarTurmasAtivas;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@org.springframework.stereotype.Service
+@Service
+@RequiredArgsConstructor
 public class ListarAlunoPorTurma extends BaseService {
 
     @Autowired

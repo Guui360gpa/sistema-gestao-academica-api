@@ -1,7 +1,7 @@
 package br.com.sistemagestaoacademica.exception;
 
 public class EmailInvalidoException extends RuntimeException {
-  public EmailInvalidoException(String message) {
-    super(message);
-  }
+    public EmailInvalidoException(String message) {
+        super(message);
+    }
 }

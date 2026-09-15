@@ -14,6 +14,10 @@ public class ListarCursosAtivos extends BaseService {
             System.out.println("Nenhum curso ativo foi encontrado!");
         }
 
+        listarCursosAtivos(cursosAtivos);
+    }
+
+    private void listarCursosAtivos(List<Curso> cursosAtivos){
         cursosAtivos.forEach(c ->
                 System.out.printf("\nCurso de %s\n%s\n%s h\n",
                         c.getNome(),

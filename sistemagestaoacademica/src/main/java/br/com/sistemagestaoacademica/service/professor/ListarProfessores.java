@@ -14,7 +14,11 @@ public class ListarProfessores extends BaseService {
             return;
         }
 
-        todosProfessores.forEach(p ->
+       listarTodosProfessores(todosProfessores);
+    }
+
+    private void listarTodosProfessores(List<Professor> professores){
+        professores.forEach(p ->
                 System.out.printf("%s | %s\n",
                         p.getNome(),
                         p.getEspecialidade()));

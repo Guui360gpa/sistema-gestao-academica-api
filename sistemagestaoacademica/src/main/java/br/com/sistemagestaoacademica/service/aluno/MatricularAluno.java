@@ -10,6 +10,7 @@ import br.com.sistemagestaoacademica.service.turma.NovaTurma;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class MatricularAluno extends BaseService {
@@ -21,9 +22,14 @@ public class MatricularAluno extends BaseService {
     @Autowired
     private NovaTurma novaTurma;
 
+    private Aluno alunoEncontrado = null;
+    private List<Aluno> alunosEncontrados;
+
+    private Turma turmaEncontrada = null;
+    private List<Turma> turmasEncontradas;
+
     public void matricular() {
-        Aluno alunoEncontrado = null;
-        List<Aluno> alunosEncontrados;
+
 
         System.out.println("\nQual aluno você deseja matricular ?");
         while (alunoEncontrado == null) {
@@ -38,17 +44,13 @@ public class MatricularAluno extends BaseService {
                     return;
                 }
             } else {
-                alunosEncontrados.forEach(a ->
-                        System.out.printf("%s - %s - %s\n", a.getRa(), a.getNome(), a.getEmail()));
+                listarAlunosEncontrados(alunosEncontrados);
                 System.out.println("\nDigite o RA do aluno desejado: ");
-                Long idSelecionado = lerLong();
-                alunoEncontrado = alunosEncontrados.stream()
-                        .filter(a -> a.getRa().equals(idSelecionado))
-                        .findFirst()
-                        .orElse(null);
+                alunoEncontrado = capturarAlunoPeloId(lerLong());
 
                 if (alunoEncontrado == null) {
-                    System.out.println("\nRA inválido! Tente novamente:");
+                    //System.out.println("\nRA inválido! Tente novamente:");
+                    throw new NullPointerException("Aluno não encontrado");
                 }
             }
         }
@@ -59,8 +61,7 @@ public class MatricularAluno extends BaseService {
             return;
         }
 
-        Turma turmaEncontrada = null;
-        List<Turma> turmasEncontradas;
+
 
         System.out.printf("\nA qual turma deseja matricular %s ?\n", alunoEncontrado.getNome());
         listarTurmasAtivas.listar();
@@ -78,14 +79,9 @@ public class MatricularAluno extends BaseService {
                     return;
                 }
             } else {
-                turmasEncontradas.forEach(a ->
-                        System.out.printf("%s - %s - %s - %s\n", a.getId(), a.getNome(), a.getProfessor().getNome(), a.getCurso().getNome()));
+                listarTurmasEncontradas(turmasEncontradas);
                 System.out.println("\nDigite o ID da turma desejada: ");
-                Long idSelecionado = lerLong();
-                turmaEncontrada = turmasEncontradas.stream()
-                        .filter(a -> a.getId().equals(idSelecionado))
-                        .findFirst()
-                        .orElse(null);
+                turmaEncontrada = capturarTurmaPeloId(lerLong());
 
                 if (turmaEncontrada == null) {
                     System.out.println("\nID inválido! Tente novamente:");
@@ -96,7 +92,36 @@ public class MatricularAluno extends BaseService {
             }
         }
 
-        matriculaRepository.save(new Matricula(alunoEncontrado, turmaEncontrada));
+        salvarMatriculaNoBanco(new Matricula(alunoEncontrado,turmaEncontrada));
         System.out.println("Aluno matriculado com sucesso!");
+    }
+
+    private void listarAlunosEncontrados(List<Aluno> alunosEncontrados){
+        alunosEncontrados.forEach(a ->
+                System.out.printf("%s - %s - %s\n", a.getRa(), a.getNome(), a.getEmail()));
+    }
+
+    private void listarTurmasEncontradas(List<Turma> turmasEncontradas){
+        turmasEncontradas.forEach(a ->
+                System.out.printf("%s - %s - %s - %s\n", a.getId(), a.getNome(), a.getProfessor().getNome(), a.getCurso().getNome()));
+    }
+
+    private Aluno capturarAlunoPeloId(Long id){
+            return alunosEncontrados.stream()
+                    .filter(a -> a.getRa().equals(id))
+                    .findFirst()
+                    .orElse(null);
+
+    }
+
+    private Turma capturarTurmaPeloId(Long id){
+        return turmasEncontradas.stream()
+                .filter(a -> a.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Matricula salvarMatriculaNoBanco(Matricula matricula){
+        return matriculaRepository.save(matricula);
     }
 }

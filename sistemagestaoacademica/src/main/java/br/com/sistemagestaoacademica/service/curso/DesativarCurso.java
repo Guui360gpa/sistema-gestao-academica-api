@@ -8,9 +8,13 @@ import java.util.List;
 
 @org.springframework.stereotype.Service
 public class DesativarCurso extends BaseService {
+
+
+    private Curso cursoEncontrado = null;
+    private List<Curso> cursosEncontrados;
+
     public void desativar(){
-        Curso cursoEncontrado = null;
-        List<Curso> cursosEncontrados;
+
 
         System.out.println("Qual curso você deseja desativar ?");
         while (cursoEncontrado == null){
@@ -19,14 +23,9 @@ public class DesativarCurso extends BaseService {
             if (cursosEncontrados.isEmpty()) {
                 System.out.println("\nCurso não encontrado! Tente Novamente.");
             }else {
-                cursosEncontrados.forEach(c ->
-                        System.out.printf("%s | %s | %s h\n",c.getId(),c.getNome(),c.getCargaHoraria()));
+                listarCursosEncontrados(cursosEncontrados);
                 System.out.println("\nDigite o ID do curso desejado: ");
-                Long idSelecionado = lerLong();
-                cursoEncontrado = cursosEncontrados.stream()
-                        .filter(p -> p.getId().equals(idSelecionado))
-                        .findFirst()
-                        .orElse(null);
+                cursoEncontrado = capturarCursoPorId(lerLong());
 
                 if (cursoEncontrado == null) {
                     System.out.println("\nID inválido! Tente novamente:");
@@ -39,5 +38,17 @@ public class DesativarCurso extends BaseService {
 
         cursoEncontrado.setStatus(Status.DESATIVADA);
         cursoRepository.save(cursoEncontrado);
+    }
+
+    private void listarCursosEncontrados(List<Curso> cursosEncontrados){
+        cursosEncontrados.forEach(c ->
+                System.out.printf("%s | %s | %s h\n",c.getId(),c.getNome(),c.getCargaHoraria()));
+    }
+
+    private Curso capturarCursoPorId(Long id){
+        return  cursosEncontrados.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 }

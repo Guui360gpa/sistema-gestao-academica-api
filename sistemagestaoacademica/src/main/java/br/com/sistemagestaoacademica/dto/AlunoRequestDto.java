@@ -1,10 +1,12 @@
 package br.com.sistemagestaoacademica.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public record AlunoRequest(
+public record AlunoRequestDto(
         @NotBlank String nome,
-        @NotBlank String email,
-        @NotBlank String dataNascimento
+        @NotBlank String dataNascimento,
+        @NotBlank @Email String email
+
 ) {
 }

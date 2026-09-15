@@ -30,6 +30,9 @@ public class Matricula {
     @Column(name = "data_matricula", nullable = false)
     private LocalDate dataMatricula;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public Matricula(Aluno aluno, Turma turma) {
         this.aluno = aluno;
         this.turma = turma;

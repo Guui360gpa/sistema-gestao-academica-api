@@ -14,6 +14,10 @@ public class ListarCursosDesativados extends BaseService {
             System.out.println("Nenhum curso desativado foi encontrado!");
         }
 
+        listarCursosDesativos(cursosDesativados);
+    }
+
+    private void listarCursosDesativos(List<Curso> cursosDesativados){
         cursosDesativados.forEach(c ->
                 System.out.printf("\nCurso de %s\n%s\n%s h\n",
                         c.getNome(),

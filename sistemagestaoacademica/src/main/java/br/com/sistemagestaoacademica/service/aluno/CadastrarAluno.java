@@ -1,39 +1,72 @@
 package br.com.sistemagestaoacademica.service.aluno;
 
+import br.com.sistemagestaoacademica.dto.AlunoRequestDto;
+import br.com.sistemagestaoacademica.dto.AlunoResponseDto;
+import br.com.sistemagestaoacademica.exception.DataInvalidaException;
+import br.com.sistemagestaoacademica.exception.EmailInvalidoException;
+import br.com.sistemagestaoacademica.exception.EmailJaCadastradoException;
 import br.com.sistemagestaoacademica.models.Aluno;
+import br.com.sistemagestaoacademica.repository.AlunoRepository;
 import br.com.sistemagestaoacademica.service.BaseService;
+import jakarta.validation.constraints.NotBlank;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
-@org.springframework.stereotype.Service
-public class CadastrarAluno extends BaseService {
-    public void cadastrar() {
-        System.out.println("Digite o nome completo do Aluno:");
-        var nomeAluno = read.nextLine();
+@Service
+@RequiredArgsConstructor
+public class CadastrarAluno{
 
-        System.out.printf("Qual é a data de nascimento do %s:", nomeAluno);
-        var dataNascimento = read.nextLine();
+    private final AlunoRepository alunoRepository;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataNascimentoFormat = LocalDate.parse(dataNascimento, formatter);
+    public AlunoResponseDto cadastrar(AlunoRequestDto dto) {
+        if (!validadorDeEmail(dto.email())){
+            throw new EmailInvalidoException("Email inválido: " + dto.email());
+        }
+        if (emailExistente(dto.email())){
+            throw new EmailJaCadastradoException("Email já existe");
+        }
 
-        System.out.printf("Qual é o email do %s:", nomeAluno);
-        var email = read.nextLine();
+        LocalDate dataFormatada = formatarData(dto.dataNascimento());
 
+        Aluno aluno = new Aluno(dto.nome(), dataFormatada, dto.email());
+
+        salvarAlunoNoBanco(aluno);
+
+        return new AlunoResponseDto(
+                aluno.getRa(),
+                aluno.getNome(),
+                aluno.getEmail(),
+                aluno.getIdade()
+        );
+    }
+
+    private boolean emailExistente(String email){
+        return alunoRepository.existsByEmail(email);
+    }
+
+    private LocalDate formatarData(String data){
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            return LocalDate.parse(data, formatter);
+        } catch (DateTimeParseException e){
+            throw new DataInvalidaException("Data inválida, use o formato dd/MM/yyyy");
+        }
+
+    }
+
+    private boolean validadorDeEmail(String email){
         String emailRegex = "^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$";
         Pattern pattern = Pattern.compile(emailRegex);
 
-        while (!pattern.matcher(email).matches()) {
-            System.out.print("Email inválido! Digite um email válido (ex: usuario@dominio.com): ");
-            email = read.nextLine();
-        }
+        return pattern.matcher(email).matches();
+    }
 
-        Aluno aluno = new Aluno(nomeAluno, dataNascimentoFormat, email);
-
-        alunoRepository.save(aluno);
-
-        System.out.println("Aluno cadastrado com sucesso!");
+    private Aluno salvarAlunoNoBanco(Aluno aluno){
+        return alunoRepository.save(aluno);
     }
 }
