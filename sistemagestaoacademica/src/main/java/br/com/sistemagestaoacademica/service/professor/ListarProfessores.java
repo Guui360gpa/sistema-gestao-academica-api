@@ -1,26 +1,38 @@
 package br.com.sistemagestaoacademica.service.professor;
 
+import br.com.sistemagestaoacademica.dto.ProfessorResponseDto;
+import br.com.sistemagestaoacademica.exception.ListaProfessorVazioException;
 import br.com.sistemagestaoacademica.models.Professor;
+import br.com.sistemagestaoacademica.repository.ProfessorRepository;
 import br.com.sistemagestaoacademica.service.BaseService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@org.springframework.stereotype.Service
-public class ListarProfessores extends BaseService {
-    public void listar() {
+@Service
+@RequiredArgsConstructor
+public class ListarProfessores{
+
+    private final ProfessorRepository professorRepository;
+
+    public List<ProfessorResponseDto> listar() {
+
         List<Professor> todosProfessores = professorRepository.findAll();
 
         if (todosProfessores.isEmpty()) {
-            System.out.println("\nNenhum professor cadastrado.");
-            return;
+            throw new ListaProfessorVazioException("Nenhum professor cadastrado");
         }
 
-       listarTodosProfessores(todosProfessores);
+       return gerarListaProfessorResponse(todosProfessores);
     }
 
-    private void listarTodosProfessores(List<Professor> professores){
-        professores.forEach(p ->
-                System.out.printf("%s | %s\n",
+    private List<ProfessorResponseDto> gerarListaProfessorResponse(List<Professor> professores){
+        return professores.stream()
+                .map(p -> new ProfessorResponseDto(
+                        p.getId(),
                         p.getNome(),
-                        p.getEspecialidade()));
+                        p.getEspecialidade()
+                )).toList();
     }
 }
