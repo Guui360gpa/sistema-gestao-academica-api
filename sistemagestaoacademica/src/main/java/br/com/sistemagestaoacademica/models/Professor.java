@@ -21,12 +21,24 @@ public class Professor {
     @OneToMany(mappedBy = "professor")
     private List<Turma> turmas;
 
+    @Column(name = "status_professor",nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public Professor(String nome, Especialidade especialidade) {
         this.nome = nome;
         this.especialidade = especialidade;
     }
 
     public Professor() {}
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

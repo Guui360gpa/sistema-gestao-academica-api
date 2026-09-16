@@ -18,4 +18,6 @@ public interface TurmaRepository extends JpaRepository<Turma,Long> {
 
     @Query("SELECT t FROM Turma t WHERE LOWER(t.nome) LIKE LOWER(CONCAT('%', :nome, '%')) AND t.status = :status")
     List<Turma> buscarTurmaAtivaPorNome(@Param("nome") String nome, @Param("status") Status status);
+
+    boolean existsByProfessor_IdAndStatusTurma(Long professorId, Status status);
 }

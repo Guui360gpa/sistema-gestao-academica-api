@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ListarProfessores{
+public class ListarProfessoresAtivos{
 
     private final ProfessorRepository professorRepository;
 
@@ -31,7 +31,8 @@ public class ListarProfessores{
                 .map(p -> new ProfessorResponseDto(
                         p.getId(),
                         p.getNome(),
-                        p.getEspecialidade()
+                        p.getEspecialidade(),
+                        p.getStatus()
                 )).toList();
     }
 }

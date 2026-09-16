@@ -28,7 +28,8 @@ public class CadastrarProfessor{
         return new ProfessorResponseDto(
                 p.getId(),
                 p.getNome(),
-                p.getEspecialidade()
+                p.getEspecialidade(),
+                p.getStatus()
         );
     }
 }
