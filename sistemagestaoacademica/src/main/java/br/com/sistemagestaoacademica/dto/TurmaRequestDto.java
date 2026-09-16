@@ -1,7 +1,5 @@
 package br.com.sistemagestaoacademica.dto;
 
-import br.com.sistemagestaoacademica.models.Curso;
-import br.com.sistemagestaoacademica.models.Professor;
 import br.com.sistemagestaoacademica.models.Status;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

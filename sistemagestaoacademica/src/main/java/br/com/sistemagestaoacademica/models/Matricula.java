@@ -1,6 +1,5 @@
 package br.com.sistemagestaoacademica.models;
 
-import br.com.sistemagestaoacademica.repository.MatriculaRepository;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -67,15 +66,5 @@ public class Matricula {
 
     public void setDataMatricula(LocalDate dataMatricula) {
         this.dataMatricula = dataMatricula;
-    }
-
-    @Override
-    public String toString() {
-        return "Matricula{" +
-                "id=" + id +
-                ", aluno=" + aluno.getNome() +
-                ", turma=" + turma.getId() +
-                ", dataMatricula=" + dataMatricula +
-                '}';
     }
 }

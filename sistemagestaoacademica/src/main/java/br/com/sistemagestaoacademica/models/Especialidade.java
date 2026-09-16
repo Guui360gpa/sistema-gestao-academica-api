@@ -26,10 +26,4 @@ public enum Especialidade {
         }
         throw new IllegalArgumentException("Especialidade inválida: " + valor);
     }
-
-
-    @Override
-    public String toString() {
-        return especialidade;
-    }
 }

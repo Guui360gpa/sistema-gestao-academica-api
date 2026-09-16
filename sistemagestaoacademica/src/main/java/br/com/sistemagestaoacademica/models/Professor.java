@@ -59,10 +59,4 @@ public class Professor {
     public void setEspecialidade(Especialidade especialidade) {
         this.especialidade = especialidade;
     }
-
-    @Override
-    public String toString() {
-        return "Prof. " + nome + " - " +
-                especialidade + "\n";
-    }
 }

@@ -20,9 +20,4 @@ public enum Status {
         }
         throw new IllegalArgumentException("Status da turma inválida inválida: " + valor);
     }
-
-    @Override
-    public String toString() {
-        return status;
-    }
 }

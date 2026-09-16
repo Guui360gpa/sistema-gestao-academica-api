@@ -89,12 +89,4 @@ public class Turma {
     public void setCurso(Curso curso) {
         this.curso = curso;
     }
-
-    @Override
-    public String toString() {
-        return "Turma " + id +
-                "\n" + data +
-                "\nProf. " + professor.getNome() +
-                "\nCurso: " + curso.getNome();
-    }
 }

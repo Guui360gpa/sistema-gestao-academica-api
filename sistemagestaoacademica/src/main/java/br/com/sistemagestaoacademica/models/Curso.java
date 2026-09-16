@@ -1,7 +1,6 @@
 package br.com.sistemagestaoacademica.models;
 
 import jakarta.persistence.*;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -72,12 +71,5 @@ public class Curso {
 
     public void setCargaHoraria(Integer cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
-    }
-
-    @Override
-    public String toString() {
-        return nome + "\n" +
-                "descricao: " + descricao + "\n" +
-                "cargaHoraria: " + cargaHoraria + "h";
     }
 }

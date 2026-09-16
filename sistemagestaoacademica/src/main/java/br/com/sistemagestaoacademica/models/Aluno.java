@@ -42,10 +42,6 @@ public class Aluno {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
@@ -53,16 +49,8 @@ public class Aluno {
         return Period.between(dataNascimento, LocalDate.now()).getYears();
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     private int getIdade(LocalDate dataNascimento){
