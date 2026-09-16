@@ -1,27 +1,40 @@
 package br.com.sistemagestaoacademica.service.turma;
 
+import br.com.sistemagestaoacademica.dto.TurmaResponseDto;
+import br.com.sistemagestaoacademica.exception.ListaTurmaVaziaException;
 import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.models.Turma;
-import br.com.sistemagestaoacademica.service.BaseService;
+import br.com.sistemagestaoacademica.repository.TurmaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@org.springframework.stereotype.Service
-public class ListarTurmasDesativadas extends BaseService {
-    public void listar() {
+@Service
+@RequiredArgsConstructor
+public class ListarTurmasDesativadas{
+
+    private final TurmaRepository turmaRepository;
+
+    public List<TurmaResponseDto> listar(){
         List<Turma> turmasDesativas = turmaRepository.findByStatus(Status.DESATIVADA);
 
-        if (turmasDesativas.isEmpty()) {
-            System.out.println("\nNenhuma turma desativada encontrada.");
-            return;
+        if(turmasDesativas.isEmpty()){
+            throw new ListaTurmaVaziaException("Nenhuma turma desativada");
         }
 
-        System.out.println("\n=== Turmas Desativadas ===");
-        turmasDesativas.forEach(t ->
-                System.out.printf("ID: %s | Turma: %s | Professor: %s | Curso: %s\n",
+        return gerarListaTurmaResponse(turmasDesativas);
+    }
+
+    private List<TurmaResponseDto> gerarListaTurmaResponse(List<Turma> turmas){
+        return turmas.stream()
+                .map(t -> new TurmaResponseDto(
                         t.getId(),
                         t.getNome(),
-                        t.getProfessor().getNome(),
-                        t.getCurso().getNome())
-        );
+                        t.getData(),
+                        t.getProfessor(),
+                        t.getCurso(),
+                        t.getStatusTurma()
+                )).toList();
     }
 }
