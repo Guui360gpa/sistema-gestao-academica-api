@@ -24,7 +24,7 @@ public class DesativarProfessor {
                 .orElseThrow(() -> new ProfessorNaoEncontradoException("Professor não encontrado"));
 
         if (professor.getStatus() == Status.DESATIVADA){
-            throw new ProfessorJaDesativadoException("Professor já está desativado");
+            throw new ProfessorJaDesativadoException("Professor já está desativado");""
         }
 
         if (possuiTurmaAtiva(professorId)) {
