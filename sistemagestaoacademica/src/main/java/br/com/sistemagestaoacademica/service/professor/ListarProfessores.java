@@ -4,7 +4,6 @@ import br.com.sistemagestaoacademica.dto.ProfessorResponseDto;
 import br.com.sistemagestaoacademica.exception.ListaProfessorVazioException;
 import br.com.sistemagestaoacademica.models.Professor;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
-import br.com.sistemagestaoacademica.service.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
