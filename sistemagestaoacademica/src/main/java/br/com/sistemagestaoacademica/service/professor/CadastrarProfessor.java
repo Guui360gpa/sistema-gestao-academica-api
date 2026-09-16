@@ -1,45 +1,35 @@
 package br.com.sistemagestaoacademica.service.professor;
 
-import br.com.sistemagestaoacademica.models.Especialidade;
+import br.com.sistemagestaoacademica.dto.ProfessorRequestDto;
+import br.com.sistemagestaoacademica.dto.ProfessorResponseDto;
 import br.com.sistemagestaoacademica.models.Professor;
+import br.com.sistemagestaoacademica.repository.ProfessorRepository;
 import br.com.sistemagestaoacademica.service.BaseService;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-@org.springframework.stereotype.Service
-public class CadastrarProfessor extends BaseService {
-    public void cadastrar() {
-        System.out.println("Digite o nome completo do professor: ");
-        var nomeProfessor = read.nextLine();
+@Service
+@RequiredArgsConstructor
+public class CadastrarProfessor{
 
-        System.out.printf("Qual é a especialidade de %s\n",nomeProfessor);
-        listarEspecialidades(List.of(Especialidade.values()));
+    private final ProfessorRepository professorRepository;
 
+    public ProfessorResponseDto cadastrar(ProfessorRequestDto dto) {
 
-        Especialidade especialidadeProfessor = null;
+        Professor professorSalvo = salvarProfessorNoBanco(new Professor(dto.nome(),dto.especialidade()));
 
-        while (especialidadeProfessor == null){
-            var especialidade = read.nextLine();
-            try {
-                especialidadeProfessor = Especialidade.fromValor(especialidade);
-            } catch (IllegalArgumentException e){
-                System.out.println("Especialidade inválida! Escolha uma das opções abaixo:\n");
-                listarEspecialidades(List.of(Especialidade.values()));
-
-            }
-        }
-
-        Professor professor = new Professor(nomeProfessor,especialidadeProfessor);
-
-        salvarProfessorNoBanco(professor);
-        System.out.println("\nProfessor cadastrado com sucesso!");
+        return gerarProfessorResponse(professorSalvo);
     }
 
     private Professor salvarProfessorNoBanco(Professor professor){
         return professorRepository.save(professor);
     }
 
-    private void listarEspecialidades(List<Especialidade> especialidades){
-        especialidades.forEach(e ->
-                System.out.printf(" - %s - \n",e.toString()));
+    private ProfessorResponseDto gerarProfessorResponse(Professor p){
+        return new ProfessorResponseDto(
+                p.getId(),
+                p.getNome(),
+                p.getEspecialidade()
+        );
     }
 }

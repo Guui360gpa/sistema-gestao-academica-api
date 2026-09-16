@@ -1,14 +1,11 @@
 package br.com.sistemagestaoacademica.service.curso;
 
 import br.com.sistemagestaoacademica.dto.CursoResponseDto;
-import br.com.sistemagestaoacademica.exception.ListaCursosAtivosVazioException;
 import br.com.sistemagestaoacademica.exception.ListaCursosVazioException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
-import br.com.sistemagestaoacademica.service.BaseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.convert.ReadingConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

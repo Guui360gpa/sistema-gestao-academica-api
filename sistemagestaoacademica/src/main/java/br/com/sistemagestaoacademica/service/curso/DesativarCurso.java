@@ -6,11 +6,8 @@ import br.com.sistemagestaoacademica.exception.CursoNaoEncontradoException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
-import br.com.sistemagestaoacademica.service.BaseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
