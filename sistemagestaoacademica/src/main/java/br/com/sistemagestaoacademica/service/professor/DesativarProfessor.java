@@ -40,7 +40,7 @@ public class DesativarProfessor {
     }
 
     private boolean possuiTurmaAtiva(Long id){
-        return turmaRepository.existsByProfessor_IdAndStatusTurma(id,Status.ATIVADA);
+        return turmaRepository.existsByProfessor_IdAndStatus(id,Status.ATIVADA);
     }
 
     private Professor salvarProfessorNoBanco(Professor professor){
