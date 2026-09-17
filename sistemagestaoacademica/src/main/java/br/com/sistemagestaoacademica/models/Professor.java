@@ -28,6 +28,7 @@ public class Professor {
     public Professor(String nome, Especialidade especialidade) {
         this.nome = nome;
         this.especialidade = especialidade;
+        this.status = Status.ATIVADA;
     }
 
     public Professor() {}
