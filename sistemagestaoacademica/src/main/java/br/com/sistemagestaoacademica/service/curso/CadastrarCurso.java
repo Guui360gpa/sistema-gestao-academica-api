@@ -2,7 +2,7 @@ package br.com.sistemagestaoacademica.service.curso;
 
 import br.com.sistemagestaoacademica.dto.CursoRequestDto;
 import br.com.sistemagestaoacademica.dto.CursoResponseDto;
-import br.com.sistemagestaoacademica.exception.CursoJaCadastrado;
+import br.com.sistemagestaoacademica.exception.CursoJaCadastradoException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class CadastrarCurso{
     public CursoResponseDto cadastrar(CursoRequestDto dto){
 
         if (cursoRepository.existsByNome(dto.nome())){
-            throw new CursoJaCadastrado("Curso ja cadastrado");
+            throw new CursoJaCadastradoException("Curso ja cadastrado");
         }
 
         Curso cursoSalvo = salvarCursoNoBanco(new Curso(dto.nome(),dto.descricao(),dto.cargaHoraria()));
