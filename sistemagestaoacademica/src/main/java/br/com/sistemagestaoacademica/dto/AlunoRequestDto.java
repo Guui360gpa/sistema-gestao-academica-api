@@ -4,9 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record AlunoRequestDto(
-        @NotBlank String nome,
-        @NotBlank String dataNascimento,
-        @NotBlank @Email String email
+        @NotBlank(message = "Campo obrigatório") String nome,
+        @NotBlank(message = "Campo obrigatório") String dataNascimento,
+        @NotBlank(message = "Campo obrigatório") @Email(message = "Email inválido") String email
 
 ) {
 }

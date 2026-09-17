@@ -3,7 +3,7 @@ package br.com.sistemagestaoacademica.dto;
 import jakarta.validation.constraints.NotNull;
 
 public record MatriculaRequestDto(
-        @NotNull Long alunoRa,
-        @NotNull Long turmaId
+        @NotNull(message = "Campo obrigatório") Long alunoRa,
+        @NotNull(message = "Campo obrigatório") Long turmaId
 ) {
 }

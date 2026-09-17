@@ -24,7 +24,7 @@ public class DesativarCurso{
         CursoResponseDto cursoResponse = gerarCursoResponse(curso);
 
         if (cursoResponse.status() == Status.DESATIVADA){
-            throw new CursoJaDesativadoException("O curso " +cursoResponse.nome() + "já está desativado");
+            throw new CursoJaDesativadoException("O curso " +cursoResponse.nome() + " já está desativado");
         }
 
         curso.setStatus(Status.DESATIVADA);

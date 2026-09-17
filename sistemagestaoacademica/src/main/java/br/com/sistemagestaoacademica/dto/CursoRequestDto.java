@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record CursoRequestDto(
-        @NotBlank String nome,
-        @NotBlank String descricao,
-        @NotNull Integer cargaHoraria
+        @NotBlank(message = "Campo obrigatório") String nome,
+        @NotBlank(message = "Campo obrigatório") String descricao,
+        @NotNull(message = "Campo obrigatório") Integer cargaHoraria
 ) {
 }

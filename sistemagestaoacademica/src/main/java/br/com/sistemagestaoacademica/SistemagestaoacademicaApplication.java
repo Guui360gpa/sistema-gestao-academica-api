@@ -1,19 +1,12 @@
 package br.com.sistemagestaoacademica;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SistemagestaoacademicaApplication implements CommandLineRunner {
+public class SistemagestaoacademicaApplication {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		SpringApplication.run(SistemagestaoacademicaApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-
 	}
 }

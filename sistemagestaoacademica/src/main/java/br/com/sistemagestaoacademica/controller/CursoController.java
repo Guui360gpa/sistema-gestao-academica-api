@@ -42,7 +42,7 @@ public class CursoController{
         return ResponseEntity.ok(cursosResponse);
     }
 
-    @DeleteMapping("/{cursoId}")
+    @PatchMapping("/{cursoId}/desativar")
     public ResponseEntity<CursoResponseDto> desativa(@PathVariable Long cursoId){
         CursoResponseDto cursoResponse = desativarCurso.desativar(cursoId);
         return ResponseEntity.ok(cursoResponse);
