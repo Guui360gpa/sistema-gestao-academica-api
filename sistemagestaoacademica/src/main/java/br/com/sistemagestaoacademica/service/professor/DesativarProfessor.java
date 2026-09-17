@@ -51,6 +51,8 @@ public class DesativarProfessor {
         return new ProfessorResponseDto(
                 p.getId(),
                 p.getNome(),
+                p.getEmail(),
+                p.getTelefone(),
                 p.getEspecialidade(),
                 p.getStatus());
     }

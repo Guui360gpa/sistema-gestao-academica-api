@@ -14,6 +14,12 @@ public class Professor {
     @Column(name = "nome",nullable = false)
     private String nome;
 
+    @Column(name = "email",nullable = false)
+    private String email;
+
+    @Column(name = "telefone",nullable = false)
+    private String telefone;
+
     @Column(name = "especialidade",nullable = false)
     @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
@@ -25,13 +31,31 @@ public class Professor {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Professor(String nome, Especialidade especialidade) {
+    public Professor(String nome,String email,String telefone, Especialidade especialidade) {
         this.nome = nome;
         this.especialidade = especialidade;
+        this.email = email;
+        this.telefone = telefone;
         this.status = Status.ATIVADA;
     }
 
     public Professor() {}
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
     public Status getStatus() {
         return status;

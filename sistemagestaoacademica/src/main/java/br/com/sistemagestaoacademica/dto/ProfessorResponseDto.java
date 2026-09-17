@@ -6,6 +6,8 @@ import br.com.sistemagestaoacademica.models.Status;
 public record ProfessorResponseDto(
         Long id,
         String nome,
+        String email,
+        String telefone,
         Especialidade especialidade,
         Status status
 ){

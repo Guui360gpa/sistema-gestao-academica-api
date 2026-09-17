@@ -32,6 +32,8 @@ public class ListarProfessoresAtivos{
                 .map(p -> new ProfessorResponseDto(
                         p.getId(),
                         p.getNome(),
+                        p.getEmail(),
+                        p.getTelefone(),
                         p.getEspecialidade(),
                         p.getStatus()
                 )).toList();

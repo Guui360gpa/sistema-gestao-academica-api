@@ -2,6 +2,7 @@ package br.com.sistemagestaoacademica.service.professor;
 
 import br.com.sistemagestaoacademica.dto.ProfessorRequestDto;
 import br.com.sistemagestaoacademica.dto.ProfessorResponseDto;
+import br.com.sistemagestaoacademica.exception.EmailJaCadastradoException;
 import br.com.sistemagestaoacademica.models.Professor;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,11 @@ public class CadastrarProfessor{
 
     public ProfessorResponseDto cadastrar(ProfessorRequestDto dto) {
 
-        Professor professorSalvo = salvarProfessorNoBanco(new Professor(dto.nome(),dto.especialidade()));
+        if (professorRepository.existsByEmail(dto.email())){
+            throw new EmailJaCadastradoException("Email já existe");
+        }
+
+        Professor professorSalvo = salvarProfessorNoBanco(new Professor(dto.nome(),dto.email(),dto.telefone(),dto.especialidade()));
 
         return gerarProfessorResponse(professorSalvo);
     }
@@ -28,6 +33,8 @@ public class CadastrarProfessor{
         return new ProfessorResponseDto(
                 p.getId(),
                 p.getNome(),
+                p.getEmail(),
+                p.getTelefone(),
                 p.getEspecialidade(),
                 p.getStatus()
         );
