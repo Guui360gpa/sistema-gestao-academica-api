@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record TurmaRequestDto(
         @NotBlank(message = "Campo obrigatório") String nome,
         @NotNull(message = "Campo obrigatório") Long  idProfessor,
-        @NotNull(message = "Campo obrigatório") Long  idCurso,
-        @NotBlank(message = "Campo obrigatório") Status status
+        @NotNull(message = "Campo obrigatório") Long  idCurso
 ) {
 }

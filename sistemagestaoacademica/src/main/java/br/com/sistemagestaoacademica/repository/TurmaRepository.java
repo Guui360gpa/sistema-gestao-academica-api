@@ -19,4 +19,6 @@ public interface TurmaRepository extends JpaRepository<Turma,Long> {
     List<Turma> buscarTurmaAtivaPorNome(@Param("nome") String nome, @Param("status") Status status);
 
     boolean existsByProfessor_IdAndStatus(Long professorId, Status status);
+
+    boolean existsByNomeAndProfessor_IdAndCurso_Id(String nome, Long professorId, Long cursoId);
 }

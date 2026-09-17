@@ -4,8 +4,10 @@ import br.com.sistemagestaoacademica.dto.TurmaRequestDto;
 import br.com.sistemagestaoacademica.dto.TurmaResponseDto;
 import br.com.sistemagestaoacademica.exception.CursoNaoEncontradoException;
 import br.com.sistemagestaoacademica.exception.ProfessorNaoEncontradoException;
+import br.com.sistemagestaoacademica.exception.TurmaDuplicadaException;
 import br.com.sistemagestaoacademica.models.Curso;
 import br.com.sistemagestaoacademica.models.Professor;
+import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.models.Turma;
 import br.com.sistemagestaoacademica.repository.CursoRepository;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
@@ -28,6 +30,10 @@ public class NovaTurma{
 
         Professor professor = professorRepository.findById(dto.idProfessor())
                         .orElseThrow(() -> new ProfessorNaoEncontradoException("Professor não encontrado"));
+
+        if (turmaRepository.existsByNomeAndProfessor_IdAndCurso_Id(dto.nome(),dto.idProfessor(), dto.idCurso())){
+            throw new TurmaDuplicadaException("Já existe uma turma com esse nome,professor e curso");
+        }
 
         Turma turmaSalva = salvarTurmaNoBanco(new Turma(dto.nome(),professor,curso));
 

@@ -61,7 +61,8 @@ public class GlobalExceptionHandler {
             EmailJaCadastradoException.class,
             MatriculaDuplicadaException.class,
             ProfessorComTurmaAtivaException.class,
-            ProfessorJaDesativadoException.class
+            ProfessorJaDesativadoException.class,
+            TurmaDuplicadaException.class
     })
     public ResponseEntity<ErrorResponseDto> handleConflict(RuntimeException ex){
         return construirResposta(HttpStatus.CONFLICT,ex);
