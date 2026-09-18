@@ -2,10 +2,7 @@ package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.dto.TurmaRequestDto;
 import br.com.sistemagestaoacademica.dto.TurmaResponseDto;
-import br.com.sistemagestaoacademica.service.turma.DesativarTurma;
-import br.com.sistemagestaoacademica.service.turma.ListarTurmasAtivas;
-import br.com.sistemagestaoacademica.service.turma.ListarTurmasDesativadas;
-import br.com.sistemagestaoacademica.service.turma.NovaTurma;
+import br.com.sistemagestaoacademica.service.turma.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +19,7 @@ public class TurmaController{
 
     private final NovaTurma novaTurma;
     private final DesativarTurma desativarTurma;
+    private final AtivarTurma ativarTurma;
     private final ListarTurmasAtivas listarAtivas;
     private final ListarTurmasDesativadas listarDesativadas;
 
@@ -46,6 +44,12 @@ public class TurmaController{
     @PatchMapping("/{turmaId}/desativar")
     public ResponseEntity<TurmaResponseDto> desativar(@PathVariable Long turmaId) {
         TurmaResponseDto turmaResponse = desativarTurma.desativar(turmaId);
+        return ResponseEntity.ok(turmaResponse);
+    }
+
+    @PatchMapping("/{turmaId}/ativar")
+    public ResponseEntity<TurmaResponseDto> ativar(@PathVariable Long turmaId) {
+        TurmaResponseDto turmaResponse = ativarTurma.ativar(turmaId);
         return ResponseEntity.ok(turmaResponse);
     }
 }

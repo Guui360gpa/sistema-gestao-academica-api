@@ -1,0 +1,47 @@
+package br.com.sistemagestaoacademica.service.turma;
+
+import br.com.sistemagestaoacademica.dto.TurmaResponseDto;
+import br.com.sistemagestaoacademica.exception.TurmaJaAtivadaException;
+import br.com.sistemagestaoacademica.exception.TurmaNaoEncontradaException;
+import br.com.sistemagestaoacademica.models.Status;
+import br.com.sistemagestaoacademica.models.Turma;
+import br.com.sistemagestaoacademica.repository.TurmaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AtivarTurma {
+
+    private final TurmaRepository turmaRepository;
+
+    public TurmaResponseDto ativar(Long id){
+
+        Turma turma = turmaRepository.findById(id)
+                .orElseThrow(() -> new TurmaNaoEncontradaException("Turma não encontrada"));
+
+        if (turma.getStatusTurma() == Status.ATIVADA){
+            throw new TurmaJaAtivadaException("Turma " + turma.getNome() + " já ativada");
+        }
+
+        turma.setStatusTurma(Status.ATIVADA);
+        Turma turmaSalva = salvarTurmaNoBanco(turma);
+
+        return gerarTurmaResponse(turmaSalva);
+    }
+
+    private Turma salvarTurmaNoBanco(Turma turma){
+        return turmaRepository.save(turma);
+    }
+
+    private TurmaResponseDto gerarTurmaResponse(Turma t){
+        return new TurmaResponseDto(
+                t.getId(),
+                t.getNome(),
+                t.getData(),
+                t.getProfessor(),
+                t.getCurso(),
+                t.getStatusTurma()
+        );
+    }
+}
