@@ -64,7 +64,13 @@ public class Turma {
         return id;
     }
 
+    public Status getStatus() {
+        return status;
+    }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public LocalDate getData() {
         return data;

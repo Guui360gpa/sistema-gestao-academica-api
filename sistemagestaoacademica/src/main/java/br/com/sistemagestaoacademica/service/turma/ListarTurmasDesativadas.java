@@ -32,9 +32,11 @@ public class ListarTurmasDesativadas{
                         t.getId(),
                         t.getNome(),
                         t.getData(),
-                        t.getProfessor(),
-                        t.getCurso(),
-                        t.getStatusTurma()
+                        t.getProfessor().getId(),
+                        t.getProfessor().getNome(),
+                        t.getCurso().getId(),
+                        t.getCurso().getNome(),
+                        t.getStatus()
                 )).toList();
     }
 }

@@ -33,14 +33,16 @@ public class DesativarTurma{
         return turmaRepository.save(turma);
     }
 
-    private TurmaResponseDto gerarTurmaResponse(Turma t){
+    private TurmaResponseDto gerarTurmaResponse(Turma turma) {
         return new TurmaResponseDto(
-                t.getId(),
-                t.getNome(),
-                t.getData(),
-                t.getProfessor(),
-                t.getCurso(),
-                t.getStatusTurma()
+                turma.getId(),
+                turma.getNome(),
+                turma.getData(),
+                turma.getProfessor().getId(),
+                turma.getProfessor().getNome(),
+                turma.getCurso().getId(),
+                turma.getCurso().getNome(),
+                turma.getStatus()
         );
     }
 }
