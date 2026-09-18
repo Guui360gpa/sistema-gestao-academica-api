@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alunos - Sistema de Gestão Acadêmica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">Gestão<br>Acadêmica</div>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="alunos.html" class="active">Alunos</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="professores.html">Professores</a>
+                <a href="turmas.html">Turmas</a>
+            </nav>
+        </aside>
+
+        <div class="content">
+            <main>
+                <h1>Gestão de Alunos</h1>
+
+                <section>
+                    <h2>Cadastrar Aluno</h2>
+                    <form id="form-cadastro-aluno">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" required>
+
+                        <label for="dataNascimento">Data de nascimento</label>
+                        <input type="text" id="dataNascimento" name="dataNascimento" placeholder="dd/mm/aaaa" required>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <button type="submit">Cadastrar</button>
+                    </form>
+
+                    <div id="mensagem-cadastro"></div>
+                </section>
+
+                <section>
+                    <h2>Matricular Aluno</h2>
+                    <form id="form-matricula">
+                        <label for="matriculaAlunoRa">RA do Aluno</label>
+                        <input type="number" id="matriculaAlunoRa" name="alunoRa" required>
+
+                        <label for="matriculaTurmaId">ID da Turma</label>
+                        <input type="number" id="matriculaTurmaId" name="turmaId" required>
+
+                        <button type="submit">Matricular</button>
+                    </form>
+
+                    <div id="mensagem-matricula"></div>
+                </section>
+
+                <section>
+                    <h2>Alunos por Turma</h2>
+                    <label for="turmaId">ID da Turma</label>
+                    <input type="number" id="turmaId" name="turmaId">
+                    <button id="btn-buscar-turma">Buscar</button>
+
+                    <table id="tabela-alunos">
+                        <thead>
+                            <tr>
+                                <th>RA</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Idade</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-alunos"></tbody>
+                    </table>
+
+                    <div id="mensagem-listagem"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/alunos.js"></script>
+</body>
+
+</html>
