@@ -1,0 +1,314 @@
+:root {
+    --azul-marinho: #16243C;
+    --fundo: #EEF1F5;
+    --superficie: #FFFFFF;
+    --dourado: #C9A227;
+    --dourado-escuro: #A6851C;
+    --verde-ativo: #3F7D58;
+    --terracota: #B4473E;
+    --borda: #D7DCE3;
+    --texto-secundario: #5B6472;
+
+    --fonte-display: 'Source Serif 4', serif;
+    --fonte-corpo: 'Inter', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fonte-corpo);
+    background-color: var(--fundo);
+    color: var(--azul-marinho);
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+
+.sidebar {
+    width: 220px;
+    background-color: var(--azul-marinho);
+    color: #FFFFFF;
+    padding: 28px 20px;
+    flex-shrink: 0;
+}
+
+.sidebar .brand {
+    font-family: var(--fonte-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 40px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sidebar nav a {
+    color: #C7CEDA;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+}
+
+.sidebar nav a:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #FFFFFF;
+}
+
+.sidebar nav a.active {
+    background-color: rgba(201, 162, 39, 0.16);
+    color: var(--dourado);
+    font-weight: 500;
+}
+
+/* Conteúdo principal */
+
+.content {
+    flex: 1;
+    padding: 40px 48px;
+    max-width: 900px;
+}
+
+.content h1 {
+    font-family: var(--fonte-display);
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin: 0 0 28px;
+}
+
+.content h2 {
+    font-family: var(--fonte-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 16px;
+}
+
+section {
+    margin-bottom: 36px;
+}
+
+/* Cartões de formulário */
+
+form {
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    max-width: 420px;
+}
+
+form label {
+    font-size: 0.85rem;
+    color: var(--texto-secundario);
+    margin-top: 14px;
+}
+
+form label:first-child {
+    margin-top: 0;
+}
+
+form input {
+    padding: 9px 10px;
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    font-family: var(--fonte-corpo);
+    font-size: 0.95rem;
+    margin-top: 4px;
+}
+
+form input:focus {
+    outline: 2px solid var(--dourado);
+    outline-offset: 1px;
+    border-color: var(--dourado);
+}
+
+form button {
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: var(--dourado);
+    color: var(--azul-marinho);
+    border: none;
+    border-radius: 4px;
+    font-family: var(--fonte-corpo);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    align-self: flex-start;
+}
+
+form button:hover {
+    background-color: var(--dourado-escuro);
+}
+
+/* Botões de ação secundária (Ver Ativos / Ver Desativados) */
+
+.acoes-listagem {
+    margin-bottom: 16px;
+}
+
+button.secundario,
+#btn-listar-ativos,
+#btn-listar-desativados,
+#btn-listar-ativas,
+#btn-listar-desativadas,
+#btn-buscar-turma {
+    padding: 8px 14px;
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    font-family: var(--fonte-corpo);
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+button.secundario:hover,
+#btn-listar-ativos:hover,
+#btn-listar-desativados:hover,
+#btn-listar-ativas:hover,
+#btn-listar-desativadas:hover,
+#btn-buscar-turma:hover {
+    border-color: var(--azul-marinho);
+}
+
+/* Tabelas */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+th {
+    text-align: left;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--texto-secundario);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--borda);
+    background-color: #F7F8FA;
+}
+
+td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--borda);
+    font-size: 0.92rem;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+/* Botões de ação dentro da tabela */
+
+.btn-ativar,
+.btn-desativar {
+    padding: 5px 12px;
+    border: none;
+    border-radius: 3px;
+    font-family: var(--fonte-corpo);
+    font-size: 0.82rem;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+
+.btn-ativar {
+    background-color: var(--verde-ativo);
+}
+
+.btn-ativar:hover {
+    background-color: #35684A;
+}
+
+.btn-desativar {
+    background-color: var(--terracota);
+}
+
+.btn-desativar:hover {
+    background-color: #983B33;
+}
+
+/* Selo de status */
+
+.status-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.status-pill.ativo {
+    background-color: rgba(63, 125, 88, 0.14);
+    color: var(--verde-ativo);
+}
+
+.status-pill.inativo {
+    background-color: rgba(180, 71, 62, 0.12);
+    color: var(--terracota);
+}
+
+/* Mensagens de feedback */
+
+.sucesso {
+    color: var(--verde-ativo);
+    font-size: 0.88rem;
+    margin-top: 12px;
+}
+
+.erro {
+    color: var(--terracota);
+    font-size: 0.88rem;
+    margin-top: 12px;
+}
+
+/* Cards do dashboard (index.html) */
+
+.cards-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.card {
+    display: block;
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 4px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card:hover {
+    border-color: var(--dourado);
+}
+
+.card h2 {
+    margin: 0 0 6px;
+    font-size: 1.1rem;
+}
+
+.card p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
