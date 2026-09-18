@@ -46,7 +46,7 @@ public class CursoController{
         return ResponseEntity.ok(cursoResponse);
     }
 
-    @PatchMapping("/{cursoId/ativar")
+    @PatchMapping("/{cursoId}/ativar")
     public ResponseEntity<CursoResponseDto> ativa(@PathVariable Long cursoId){
         CursoResponseDto cursoResponse = ativarCurso.ativar(cursoId);
         return ResponseEntity.ok(cursoResponse);

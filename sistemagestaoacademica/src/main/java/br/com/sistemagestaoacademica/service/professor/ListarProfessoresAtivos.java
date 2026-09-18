@@ -21,7 +21,7 @@ public class ListarProfessoresAtivos{
         List<Professor> professoresAtivos = professorRepository.findByStatus(Status.ATIVADA);
 
         if (professoresAtivos.isEmpty()) {
-            throw new ListaProfessorVazioException("Nenhum professor cadastrado");
+            throw new ListaProfessorVazioException("Nenhum professor cadastrado ou ativo");
         }
 
        return gerarListaProfessorResponse(professoresAtivos);

@@ -3,10 +3,7 @@ package br.com.sistemagestaoacademica.controller;
 
 import br.com.sistemagestaoacademica.dto.ProfessorRequestDto;
 import br.com.sistemagestaoacademica.dto.ProfessorResponseDto;
-import br.com.sistemagestaoacademica.service.professor.CadastrarProfessor;
-import br.com.sistemagestaoacademica.service.professor.DesativarProfessor;
-import br.com.sistemagestaoacademica.service.professor.ListarProfessoresAtivos;
-import br.com.sistemagestaoacademica.service.professor.ListarProfessoresDesativados;
+import br.com.sistemagestaoacademica.service.professor.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +20,7 @@ public class ProfessorController{
     private final CadastrarProfessor cadastrarProfessor;
     private final ListarProfessoresAtivos listarAtivos;
     private final DesativarProfessor desativarProfessor;
+    private final AtivarProfessor ativarProfessor;
     private final ListarProfessoresDesativados listarDesativados;
 
     @PostMapping
@@ -46,6 +44,12 @@ public class ProfessorController{
     @PatchMapping("/{professorId}/desativar")
     public ResponseEntity<ProfessorResponseDto> desativar(@PathVariable Long professorId) {
         ProfessorResponseDto professorResponse = desativarProfessor.desativar(professorId);
+        return ResponseEntity.ok(professorResponse);
+    }
+
+    @PatchMapping("/{professorId}/ativar")
+    public ResponseEntity<ProfessorResponseDto> ativar(@PathVariable Long professorId) {
+        ProfessorResponseDto professorResponse = ativarProfessor.ativar(professorId);
         return ResponseEntity.ok(professorResponse);
     }
 }

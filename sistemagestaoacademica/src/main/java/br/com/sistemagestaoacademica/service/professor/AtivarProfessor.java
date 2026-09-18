@@ -1,46 +1,33 @@
 package br.com.sistemagestaoacademica.service.professor;
 
 import br.com.sistemagestaoacademica.dto.ProfessorResponseDto;
-import br.com.sistemagestaoacademica.exception.ProfessorComTurmaAtivaException;
-import br.com.sistemagestaoacademica.exception.ProfessorJaDesativadoException;
+import br.com.sistemagestaoacademica.exception.ProfessorJaAtivadoException;
 import br.com.sistemagestaoacademica.exception.ProfessorNaoEncontradoException;
 import br.com.sistemagestaoacademica.models.Professor;
 import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.repository.ProfessorRepository;
-import br.com.sistemagestaoacademica.repository.TurmaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class DesativarProfessor {
+public class AtivarProfessor {
 
     private final ProfessorRepository professorRepository;
-    private final TurmaRepository turmaRepository;
 
-    public ProfessorResponseDto desativar(Long professorId) {
+    public ProfessorResponseDto ativar(Long id){
 
-        Professor professor = professorRepository.findById(professorId)
+        Professor professor = professorRepository.findById(id)
                 .orElseThrow(() -> new ProfessorNaoEncontradoException("Professor não encontrado"));
 
-        if (professor.getStatus() == Status.DESATIVADA){
-            throw new ProfessorJaDesativadoException("Professor(a) " + professor.getNome() +  " já está desativado(a)");
+        if (professor.getStatus() == Status.ATIVADA){
+            throw new ProfessorJaAtivadoException("Professor(a) " + professor.getNome() + " já ativado(a)");
         }
 
-        if (possuiTurmaAtiva(professorId)) {
-            throw new ProfessorComTurmaAtivaException(
-                    "Professor não pode ser desativado: possui turma(s) ativa(s) vinculada(s)");
-        }
-
-        professor.setStatus(Status.DESATIVADA);
+        professor.setStatus(Status.ATIVADA);
         Professor professorSalvo = salvarProfessorNoBanco(professor);
 
         return gerarProfessorResponse(professorSalvo);
-
-    }
-
-    private boolean possuiTurmaAtiva(Long id){
-        return turmaRepository.existsByProfessor_IdAndStatus(id,Status.ATIVADA);
     }
 
     private Professor salvarProfessorNoBanco(Professor professor){
@@ -54,6 +41,7 @@ public class DesativarProfessor {
                 p.getEmail(),
                 p.getTelefone(),
                 p.getEspecialidade(),
-                p.getStatus());
+                p.getStatus()
+        );
     }
 }
