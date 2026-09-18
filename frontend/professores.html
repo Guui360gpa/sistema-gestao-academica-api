@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Professores - Sistema de Gestão Acadêmica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">Gestão<br>Acadêmica</div>
+            <nav>
+                <a href="index.html">Início</a>
+                <a href="alunos.html">Alunos</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="professores.html" class="active">Professores</a>
+                <a href="turmas.html">Turmas</a>
+            </nav>
+        </aside>
+
+        <div class="content">
+            <main>
+                <h1>Gestão de Professores</h1>
+
+                <section>
+                    <h2>Cadastrar Professor</h2>
+                    <form id="form-cadastro-professor">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" required>
+
+                        <label for="especialidade">Especialidade</label>
+                        <input type="text" id="especialidade" name="especialidade" placeholder="ex: MATEMATICA" required>
+
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="telefone">Telefone</label>
+                        <input type="text" id="telefone" name="telefone" required>
+
+                        <button type="submit">Cadastrar</button>
+                    </form>
+
+                    <div id="mensagem-cadastro"></div>
+                </section>
+
+                <section>
+                    <h2>Professores</h2>
+                    <div class="acoes-listagem">
+                        <button id="btn-listar-ativos">Ver Ativos</button>
+                        <button id="btn-listar-desativados">Ver Desativados</button>
+                    </div>
+
+                    <table id="tabela-professores">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Especialidade</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-professores"></tbody>
+                    </table>
+
+                    <div id="mensagem-listagem"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/professores.js"></script>
+</body>
+
+</html>
