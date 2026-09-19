@@ -1,5 +1,6 @@
 package br.com.sistemagestaoacademica.repository;
 
+import br.com.sistemagestaoacademica.models.Role;
 import br.com.sistemagestaoacademica.models.Status;
 import br.com.sistemagestaoacademica.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Long> {
     List<Usuario> findByStatus(@Param("status") Status status);
 
     Optional<Usuario> findByEmail (String email);
+
+    boolean existsByRole(Role role);
 
 }
