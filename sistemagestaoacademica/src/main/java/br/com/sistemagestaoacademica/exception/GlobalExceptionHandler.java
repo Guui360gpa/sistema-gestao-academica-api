@@ -17,7 +17,8 @@ public class GlobalExceptionHandler {
     //400
     @ExceptionHandler({
             DataInvalidaException.class,
-            EmailInvalidoException.class
+            EmailInvalidoException.class,
+            LoginInvalidoException.class
     })
     public ResponseEntity<ErrorResponseDto> handleBadRequest(RuntimeException ex){
         return construirResposta(HttpStatus.BAD_REQUEST, ex);
