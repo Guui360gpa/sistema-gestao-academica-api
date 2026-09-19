@@ -67,7 +67,8 @@ public class GlobalExceptionHandler {
             ProfessorJaAtivadoException.class,
             TurmaDuplicadaException.class,
             TurmaJaAtivadaException.class,
-            TurmaJaDesativadaException.class
+            TurmaJaDesativadaException.class,
+            AdminNaoPodeSerModificadoException.class
     })
     public ResponseEntity<ErrorResponseDto> handleConflict(RuntimeException ex){
         return construirResposta(HttpStatus.CONFLICT,ex);
@@ -82,6 +83,15 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ErrorResponseDto> handleUnprocessable(RuntimeException ex) {
         return construirResposta(HttpStatus.UNPROCESSABLE_CONTENT,ex);
+    }
+
+    //401
+    @ExceptionHandler({
+            CredenciaisInvalidasException.class,
+            UsuarioInativoException.class
+    })
+    public ResponseEntity<ErrorResponseDto> handleUnauthorized(RuntimeException ex) {
+        return  construirResposta(HttpStatus.UNAUTHORIZED, ex);
     }
 
     private ResponseEntity<ErrorResponseDto> construirResposta(HttpStatus status, RuntimeException ex) {
