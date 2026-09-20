@@ -24,6 +24,8 @@ public class AtivarTurma {
             throw new TurmaJaAtivadaException("Turma " + turma.getNome() + " já ativada");
         }
 
+
+
         turma.setStatusTurma(Status.ATIVADA);
         Turma turmaSalva = salvarTurmaNoBanco(turma);
 

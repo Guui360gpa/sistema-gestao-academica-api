@@ -64,6 +64,7 @@ public class GlobalExceptionHandler {
             EmailJaCadastradoException.class,
             MatriculaDuplicadaException.class,
             ProfessorComTurmaAtivaException.class,
+            CursoComTurmaAtivaException.class,
             ProfessorJaDesativadoException.class,
             ProfessorJaAtivadoException.class,
             TurmaDuplicadaException.class,

@@ -20,5 +20,7 @@ public interface TurmaRepository extends JpaRepository<Turma,Long> {
 
     boolean existsByProfessor_IdAndStatus(Long professorId, Status status);
 
+    boolean existsByCurso_IdAndStatus(Long cursoId, Status status);
+
     boolean existsByNomeAndProfessor_IdAndCurso_Id(String nome, Long professorId, Long cursoId);
 }
