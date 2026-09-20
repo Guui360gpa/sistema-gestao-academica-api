@@ -29,8 +29,6 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar */
-
 .sidebar {
     width: 220px;
     background-color: var(--azul-marinho);
@@ -72,8 +70,6 @@ body {
     font-weight: 500;
 }
 
-/* Conteúdo principal */
-
 .content {
     flex: 1;
     padding: 40px 48px;
@@ -97,8 +93,6 @@ body {
 section {
     margin-bottom: 36px;
 }
-
-/* Cartões de formulário */
 
 form {
     background-color: var(--superficie);
@@ -184,8 +178,6 @@ button.secundario:hover,
     border-color: var(--azul-marinho);
 }
 
-/* Tabelas */
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -216,8 +208,6 @@ tr:last-child td {
     border-bottom: none;
 }
 
-/* Botões de ação dentro da tabela */
-
 .btn-ativar,
 .btn-desativar {
     padding: 5px 12px;
@@ -245,8 +235,6 @@ tr:last-child td {
     background-color: #983B33;
 }
 
-/* Selo de status */
-
 .status-pill {
     display: inline-block;
     padding: 3px 10px;
@@ -265,8 +253,6 @@ tr:last-child td {
     color: var(--terracota);
 }
 
-/* Mensagens de feedback */
-
 .sucesso {
     color: var(--verde-ativo);
     font-size: 0.88rem;
@@ -278,8 +264,6 @@ tr:last-child td {
     font-size: 0.88rem;
     margin-top: 12px;
 }
-
-/* Cards do dashboard (index.html) */
 
 .cards-menu {
     display: grid;
@@ -311,4 +295,41 @@ tr:last-child td {
     margin: 0;
     color: var(--texto-secundario);
     font-size: 0.9rem;
+}
+
+.pagina-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--azul-marinho);
+}
+
+.login-container {
+    background-color: var(--superficie);
+    padding: 40px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.login-brand {
+    font-family: var(--fonte-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 28px;
+    color: var(--azul-marinho);
+}
+
+.login-container form {
+    border: none;
+    padding: 0;
+    max-width: none;
+}
+
+.login-container button {
+    width: 100%;
+    align-self: stretch;
+    text-align: center;
 }
