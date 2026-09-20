@@ -1,6 +1,8 @@
 const API_BASE_URL = "http://localhost:8080";
 
 async function apiRequest(endpoint, method = "GET", body = null) {
+    const token = localStorage.getItem("token");
+
     const options = {
         method,
         headers: {
@@ -8,11 +10,21 @@ async function apiRequest(endpoint, method = "GET", body = null) {
         }
     };
 
+    if (token) {
+        options.headers["Authorization"] = `Bearer ${token}`;
+    }
+
     if (body !== null) {
         options.body = JSON.stringify(body);
     }
 
     const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+
+    if (response.status === 401) {
+        localStorage.clear();
+        window.location.href = "login.html";
+        return;
+    }
 
     let data = null;
     const contentType = response.headers.get("content-type");
