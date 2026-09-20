@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Usuários - Sistema de Gestão Acadêmica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <script src="js/auth-guard.js"></script>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">Gestão<br>Acadêmica</div>
+            <nav id="nav-links">
+                <a href="index.html">Início</a>
+                <a href="alunos.html">Alunos</a>
+                <a href="cursos.html">Cursos</a>
+                <a href="professores.html">Professores</a>
+                <a href="turmas.html">Turmas</a>
+                <a href="usuarios.html" class="active" id="link-usuarios">Usuários</a>
+            </nav>
+            <button id="btn-logout" class="btn-logout">Sair</button>
+        </aside>
+
+        <div class="content">
+            <main>
+                <h1>Gestão de Usuários</h1>
+
+                <section>
+                    <h2>Cadastrar Usuário</h2>
+                    <form id="form-cadastro-usuario">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" required>
+
+                        <button type="submit">Cadastrar</button>
+                    </form>
+
+                    <div id="mensagem-cadastro"></div>
+                </section>
+
+                <section>
+                    <h2>Usuários</h2>
+                    <div class="acoes-listagem">
+                        <button id="btn-listar-ativos">Ver Ativos</button>
+                        <button id="btn-listar-desativados">Ver Desativados</button>
+                    </div>
+
+                    <table id="tabela-usuarios">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Papel</th>
+                                <th>Status</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo-tabela-usuarios"></tbody>
+                    </table>
+
+                    <div id="mensagem-listagem"></div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/sidebar.js"></script>
+    <script src="js/usuarios.js"></script>
+</body>
+
+</html>
