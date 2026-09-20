@@ -1,4 +1,4 @@
-package br.com.sistemagestaoacademica.service.usuario;
+package br.com.sistemagestaoacademica.service.login;
 
 import br.com.sistemagestaoacademica.dto.LoginRequestDto;
 import br.com.sistemagestaoacademica.dto.LoginResponseDto;
