@@ -49,7 +49,8 @@ public class GlobalExceptionHandler {
             AlunoNaoEncontradoException.class,
             CursoNaoEncontradoException.class,
             ProfessorNaoEncontradoException.class,
-            TurmaNaoEncontradaException.class
+            TurmaNaoEncontradaException.class,
+            UsuarioNaoEncontradoException.class
     })
     public ResponseEntity<ErrorResponseDto> handleNotFound(RuntimeException ex){
         return construirResposta(HttpStatus.BAD_REQUEST,ex);
