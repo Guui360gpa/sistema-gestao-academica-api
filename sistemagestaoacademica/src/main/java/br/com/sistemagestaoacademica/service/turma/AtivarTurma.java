@@ -1,6 +1,8 @@
 package br.com.sistemagestaoacademica.service.turma;
 
 import br.com.sistemagestaoacademica.dto.TurmaResponseDto;
+import br.com.sistemagestaoacademica.exception.CursoInativoException;
+import br.com.sistemagestaoacademica.exception.ProfessorInativoException;
 import br.com.sistemagestaoacademica.exception.TurmaJaAtivadaException;
 import br.com.sistemagestaoacademica.exception.TurmaNaoEncontradaException;
 import br.com.sistemagestaoacademica.models.Status;
@@ -24,7 +26,15 @@ public class AtivarTurma {
             throw new TurmaJaAtivadaException("Turma " + turma.getNome() + " já ativada");
         }
 
+        if (turma.getProfessor().getStatus() != Status.ATIVADA) {
+            throw new ProfessorInativoException(
+                    "Não é possível ativar a turma: o professor " + turma.getProfessor().getNome() + " está inativo");
+        }
 
+        if (turma.getCurso().getStatus() != Status.ATIVADA) {
+            throw new CursoInativoException(
+                    "Não é possível ativar a turma: o curso " + turma.getCurso().getNome() + " está inativo");
+        }
 
         turma.setStatusTurma(Status.ATIVADA);
         Turma turmaSalva = salvarTurmaNoBanco(turma);
