@@ -1,0 +1,6 @@
+sistemagestaoacademica/target/
+sistemagestaoacademica/.idea/
+sistemagestaoacademica/*.iml
+.idea/
+.git/
+*.md
