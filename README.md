@@ -2,11 +2,11 @@
 
 API Back-End para gerenciamento acadêmico de uma instituição de ensino, com autenticação e controle de acesso por papéis, além de um frontend simples para consumo da API.
 
-> **Versão atual:** v3.0.0 — autenticação JWT, gestão de usuários e frontend.
+> **Versão atual:** v3.1.0 — containerização com Docker Compose (backend, frontend e PostgreSQL).
 
 ## Sobre o projeto
 
-A aplicação gerencia o relacionamento entre alunos, professores, cursos e turmas, oferecendo operações de cadastro, consulta, ativação/desativação e matrícula. O projeto nasceu como uma aplicação de terminal e passou por duas grandes evoluções: primeiro a migração para uma API REST (v2.0.0), depois a adição de autenticação, autorização por papéis e um frontend HTML/CSS/JS consumindo essa API (v3.0.0).
+A aplicação gerencia o relacionamento entre alunos, professores, cursos e turmas, oferecendo operações de cadastro, consulta, ativação/desativação e matrícula. O projeto nasceu como uma aplicação de terminal e passou por três grandes evoluções: a migração para uma API REST (v2.0.0), a adição de autenticação, autorização por papéis e um frontend HTML/CSS/JS consumindo essa API (v3.0.0), e a containerização de todo o sistema com Docker Compose (v3.1.0).
 
 ## Tecnologias utilizadas
 
@@ -20,6 +20,8 @@ A aplicação gerencia o relacionamento entre alunos, professores, cursos e turm
 - **Lombok**
 - **Maven**
 - **HTML, CSS e JavaScript puro** (frontend, sem frameworks)
+- **Docker e Docker Compose** — empacotamento e orquestração dos serviços
+- **Nginx** — servidor do frontend e proxy reverso para a API
 
 ## Arquitetura
 
@@ -122,13 +124,82 @@ Criado automaticamente na primeira inicialização da aplicação (`AdminSeeder`
 
 ## Como executar
 
+Existem três formas de rodar o projeto. A mais simples é com Docker.
+
+### Variáveis de ambiente
+
+Todas as formas usam as mesmas variáveis. Copie o arquivo de exemplo e preencha com seus valores:
+
+```bash
+cp .env.example .env
+```
+
+| Variável | Descrição |
+|---|---|
+| `DB_USER` / `DB_PASSWORD` | Credenciais do PostgreSQL |
+| `JWT_SECRET` | Chave usada para assinar os tokens. Deve ser Base64. Gere com `openssl rand -base64 64` |
+| `ADMIN_EMAIL` / `ADMIN_SENHA` | Credenciais do usuário administrador criado na primeira inicialização |
+
+O arquivo `.env` contém segredos e está no `.gitignore`. Nunca o envie ao repositório.
+
+### Opção 1 — Docker Compose, construindo as imagens localmente
+
+Requer apenas o Docker instalado.
+
+```bash
+docker compose up --build
+```
+
+Quando o log mostrar `Started SistemagestaoacademicaApplication` e `Usuário ADMIN criado com sucesso`, acesse **http://localhost** e entre com o `ADMIN_EMAIL` e o `ADMIN_SENHA` definidos no `.env`.
+
+Para encerrar:
+
+```bash
+docker compose down
+```
+
+Os dados do banco não persistem entre execuções: a cada `up`, o PostgreSQL começa vazio e o administrador é recriado.
+
+### Opção 2 — Docker Compose, usando as imagens do Docker Hub
+
+Não exige clonar o código-fonte, apenas o arquivo `docker-compose.hub.yml` e o `.env`:
+
+```bash
+docker compose -f docker-compose.hub.yml up
+```
+
+As imagens usadas são `SEU_USUARIO/gestao-academica-backend` e `SEU_USUARIO/gestao-academica-frontend`.
+
+### Opção 3 — Desenvolvimento local, sem Docker
+
 1. PostgreSQL disponível, com um database `instituicao_academica`.
-2. Configurar as variáveis de ambiente:
-   - `DB_HOST`, `DB_USER`, `DB_PASSWORD`
-   - `JWT_SECRET` — chave usada para assinar os tokens (gerar com `openssl rand -base64 64`)
-   - `ADMIN_EMAIL`, `ADMIN_SENHA` — credenciais do usuário administrador criado na primeira inicialização
-3. Rodar `SistemagestaoacademicaApplication`. A aplicação sobe em `http://localhost:8080`.
-4. Abrir qualquer página em `frontend/` com a extensão **Live Server** do VS Code. A porta usada pelo Live Server precisa estar liberada em `CorsConfig` (`allowedOrigins`).
+2. Definir as variáveis de ambiente acima, mais `DB_HOST` (ex: `localhost`).
+3. Rodar `SistemagestaoacademicaApplication`. A API sobe em `http://localhost:8080`.
+4. Abrir qualquer página de `frontend/` com a extensão **Live Server** do VS Code. A porta do Live Server (`5501`) precisa estar liberada em `CorsConfig` (`allowedOrigins`).
+
+## Arquitetura de containers
+
+```
+                  porta 80 (única exposta)
+                          |
+                 +--------v--------+
+                 |    frontend     |   Nginx: serve HTML/CSS/JS
+                 |     (Nginx)     |   e repassa /api/* ao backend
+                 +--------+--------+
+                          | rede interna do Docker
+                 +--------v--------+
+                 |     backend     |   Spring Boot, porta 8080
+                 +--------+--------+   (não exposta ao host)
+                          |
+                 +--------v--------+
+                 |    postgres     |   PostgreSQL 16
+                 +-----------------+
+```
+
+- O **Nginx** é o único serviço exposto ao host. Frontend e API são servidos pela mesma origem, o que elimina problemas de CORS nesse cenário.
+- Chamadas do navegador para `/api/...` são repassadas ao backend, que as recebe sem o prefixo (`/api/alunos` chega como `/alunos`).
+- O backend usa um **multi-stage build**: o Maven compila o projeto em um estágio e apenas o `.jar` segue para a imagem final, baseada em JRE, que é menor.
+- O `api.js` detecta o ambiente: na porta `5501` (Live Server) chama `http://localhost:8080` diretamente; em qualquer outra, usa `/api`.
 
 ## Endpoints
 
@@ -247,14 +318,16 @@ frontend/
   cursos.html           → cadastro e gestão de status
   professores.html      → cadastro e gestão de status
   turmas.html           → cadastro e gestão de status
-  usuarios.html         → gestão de usuários (visível apenas para ADMIN)
+  usuarios.html         → gestão de usuários (endpoints restritos a ADMIN)
   css/
     style.css
   js/
-    api.js               → fetch centralizado, injeta token JWT e trata 401 globalmente
+    api.js               → fetch centralizado, injeta token JWT, trata 401 e escolhe a URL base conforme o ambiente
     auth-guard.js         → protege páginas, redireciona para login se não autenticado
     login.js
     alunos.js / cursos.js / professores.js / turmas.js / usuarios.js
+  Dockerfile            → imagem Nginx com os arquivos estáticos
+  nginx.conf            → servidor estático + proxy reverso para /api
 ```
 
 O token JWT é armazenado no `localStorage` após o login e enviado automaticamente em toda chamada à API. Uma resposta `401` de qualquer endpoint limpa a sessão local e redireciona para a tela de login.
@@ -266,4 +339,8 @@ O token JWT é armazenado no `localStorage` após o login e enviado automaticame
 - [ ] Refresh token, para evitar que o usuário precise logar novamente a cada 24h
 - [ ] Implementar exclusão definitiva (Curso/Turma/Aluno) respeitando vínculos ativos
 - [ ] Cobrir o módulo de Matrícula com endpoint de "desmatricular"
+- [ ] Link "Usuários" e botão de logout na sidebar, exibidos conforme o papel do usuário
+- [ ] Endpoint para reativar usuários desativados
+- [ ] Volume para persistir os dados do PostgreSQL entre execuções
+- [ ] Healthcheck do banco no Compose, para o backend só iniciar quando o PostgreSQL estiver pronto
 - [ ] Deploy da API e do frontend em ambiente acessível publicamente
