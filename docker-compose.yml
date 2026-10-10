@@ -12,6 +12,7 @@ services:
   backend:
     build:
       context: ./sistemagestaoacademica
+    image: gpaivadev/gestao-academica-backend:3.1.0
     environment:
       DB_HOST: postgres
       DB_USER: ${DB_USER}
@@ -27,6 +28,7 @@ services:
   frontend:
     build:
       context: ./frontend
+    image: gpaivadev/gestao-academica-frontend:3.1.0
     ports:
       - "80:80"
     depends_on:
